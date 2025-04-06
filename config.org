@@ -318,7 +318,12 @@
 (after! doom-modeline
   (setq doom-modeline-major-mode-icon t))
 #+end_src
-
+** Indent-guides
+*** Make indent-guides straight lines
+#+begin_src emacs-lisp :tangle yes
+(after! indent-bars
+  (setq indent-bars-pattern "."))
+#+end_src
 ** Theme
 #+begin_src emacs-lisp :tangle yes
 ;; There are two ways to load a theme. Both assume the theme is installed and
