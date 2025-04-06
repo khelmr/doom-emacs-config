@@ -534,11 +534,24 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
        "J" #'windmove-swap-states-down
        "K" #'windmove-swap-states-up
        "L" #'windmove-swap-states-right
-       "o" #'delete-other-windows
+       "o" #'other-window
        "n" #'next-window-any-frame
        "p" #'previous-window-any-frame))
 #+end_src
+*** Transpose Frame
+#+begin_src emacs-lisp :tangle packages.el
+(package! transpose-frame)
+#+end_src
 
+#+begin_src emacs-lisp :tangle yes
+(map! :leader
+      (:prefix-map ("w" . "window")
+        "t" #'transpose-frame
+        "f" #'flip-frame
+        "F" #'flop-frame
+        "r" #'rotate-frame-clockwise
+        "R" #'rotate-frame-anticlockwise))
+#+end_src
 
 ** Workspace
 #+begin_src emacs-lisp :tangle no
