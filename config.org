@@ -541,6 +541,52 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
 
 
 ** Workspace
+#+begin_src emacs-lisp :tangle no
+(package! tabspaces)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+(use-package tabspaces
+  ;; use this next line only if you also use straight, otherwise ignore it.
+  :hook (doom-init-ui . tabspaces-mode) ;; use this only if you want the minor-mode loaded at startup.
+  :commands (tabspaces-switch-or-create-workspace
+             tabspaces-open-or-create-project-and-workspace)
+  :bind
+  (:map tabspaces-mode-map
+        ("C-c TAB TAB" . #'tabspaces-switch-or-create-workspace))
+  :custom
+  (tabspaces-use-filtered-buffers-as-default t)
+  (tabspaces-default-tab "Default")
+  (tabspaces-remove-to-default t)
+  ;; (tabspaces-include-buffers '("*scratch*" "*dashboard*"))
+  ;; (tabspaces-initialize-project-with-todo t)
+  ;; (tabspaces-todo-file-name "project-todo.org")
+  ;; sessions
+  ;; (tabspaces-session t)
+  ;; (tabspaces-session-auto-restore t)
+  :config
+  (with-eval-after-load 'consult
+    ;; hide full buffer list (still available with "b" prefix)
+    (consult-customize consult--source-buffer :hidden t :default nil)
+    ;; set consult-workspace buffer list
+    (defvar consult--source-workspace
+      (list :name     "Workspace Buffers"
+            :narrow   ?w
+            :history  'buffer-name-history
+            :category 'buffer
+            :state    #'consult--buffer-state
+            :default  t
+            :items    (lambda () (consult--buffer-query
+                                  :predicate #'tabspaces--local-buffer-p
+                                  :sort 'visibility
+                                  :as #'buffer-name)))
+
+      "Set workspace buffer list for consult-buffer.")
+    (add-to-list 'consult-buffer-sources 'consult--source-workspace))
+  ;; Rename the first tab to `tabspaces-default-tab'
+  ;; (tab-bar-rename-tab tabspaces-default-tab)
+  )
+#+end_src
 #+begin_src emacs-lisp :tangle yes
 (map! :leader (:when (modulep! :ui workspaces)
        (:prefix-map ("TAB" . "workspace")
