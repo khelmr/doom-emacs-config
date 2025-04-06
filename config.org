@@ -304,7 +304,21 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 #+end_src
-* Theme
+* Input
+* Completion
+* UI
+** Modeline :builtin:
+*** Show wordcount in modeline :appearance:
+#+begin_src emacs-lisp :tangle yes
+(after! doom-modeline
+  (setq doom-modeline-enable-word-count t))
+#+end_src
+*** Show mode icon in modeline :appearance:
+#+begin_src emacs-lisp :tangle yes
+(after! doom-modeline
+  (setq doom-modeline-major-mode-icon t))
+#+end_src
+
 ** Theme
 #+begin_src emacs-lisp :tangle yes
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -328,6 +342,43 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 #+end_src
+** Buffer
+#+begin_src emacs-lisp :tangle yes
+(map! :leader (:prefix-map ("b" . "buffer")
+       :desc "Toggle narrowing"            "-"   #'doom/toggle-narrow-buffer
+       :desc "Previous buffer"             "["   #'previous-buffer
+       :desc "Next buffer"                 "]"   #'next-buffer
+       (:when (modulep! :ui workspaces)
+        :desc "Switch workspace buffer" "b" #'persp-switch-to-buffer
+        :desc "Switch buffer"           "B" #'switch-to-buffer
+        :desc "ibuffer workspace"       "I" #'+ibuffer/open-for-current-workspace)
+       (:unless (modulep! :ui workspaces)
+        :desc "Switch buffer"           "b" #'switch-to-buffer)
+       :desc "Clone buffer"                "c"   #'clone-indirect-buffer
+       :desc "Clone buffer other window"   "C"   #'clone-indirect-buffer-other-window
+       :desc "Kill buffer"                 "d"   #'kill-current-buffer
+       :desc "ibuffer"                     "i"   #'ibuffer
+       :desc "Kill buffer"                 "k"   #'kill-current-buffer
+       :desc "Kill all buffers"            "K"   #'doom/kill-all-buffers
+       (:when (modulep! :editor meow)
+         :desc "Switch to last buffer"       "l"   #'meow-last-buffer)
+       :desc "Set bookmark"                "m"   #'bookmark-set
+       :desc "Delete bookmark"             "M"   #'bookmark-delete
+       :desc "Next buffer"                 "n"   #'next-buffer
+       ;; :desc "New empty buffer"            "N"   #'evil-buffer-new
+       :desc "Kill other buffers"          "O"   #'doom/kill-other-buffers
+       :desc "Previous buffer"             "p"   #'previous-buffer
+       :desc "Revert buffer"               "r"   #'revert-buffer
+       :desc "Rename buffer"               "R"   #'rename-buffer
+       :desc "Save buffer"                 "s"   #'basic-save-buffer
+       ;; :desc "Save all buffers"            "S"   #'evil-write-all
+       :desc "Save buffer as root"         "u"   #'doom/sudo-save-buffer
+       :desc "Pop up scratch buffer"       "x"   #'doom/open-scratch-buffer
+       :desc "Switch to scratch buffer"    "X"   #'doom/switch-to-scratch-buffer
+       :desc "Yank buffer"                 "y"   #'+default/yank-buffer-contents
+       :desc "Bury buffer"                 "z"   #'bury-buffer
+       :desc "Kill buried buffers"         "Z"   #'doom/kill-buried-buffers))
+#+end_src
 ** Font
 #+begin_src emacs-lisp :tangle yes
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
@@ -349,18 +400,241 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-
 #+end_src
-* Org
-** Org directory
+** Files
+#+begin_src emacs-lisp :tangle yes
+(map! :leader (:prefix-map ("f" . "file")
+      :desc "Save file"                   "s"   #'save-buffer
+      :desc "Save file as..."             "S"   #'write-file))
+#+end_src
+
+
+** Meow
+Set some defaults
+#+begin_src emacs-lisp :tangle yes
+(after! meow
+  (setq meow-use-clipboard t
+        meow-use-enhanced-selection-effect t)
+  (after! consult
+    (setq meow-goto-line-function 'consult-goto-line)))
+#+end_src
+*** Normal mode tweaks
+#+begin_src emacs-lisp :tangle yes
+(after! meow
+  (meow-normal-define-key
+ '("d" . meow-kill)
+ '("g" . "M-g")
+ '("s" . avy-goto-char-2)
+ '("u" . undo-fu-only-undo)
+ '("U" . undo-fu-only-redo)
+ '("/" . meow-visit)
+ '("?" . meow-query-replace-regexp)))
+#+end_src
+*** Leader keys
+Add some keys from doom evil mode back into meow's leader keymap
+#+begin_src emacs-lisp :tangle yes
+(after! meow
+  (meow-leader-define-key
+   '("." . find-file)
+   '("," . persp-switch-to-buffer)
+   '("~" . +popup/toggle)
+   '("<" . switch-to-buffer)
+   '("'" . vertico-repeat)
+   '("*" . +default/search-project-for-symbol-at-point)
+   '("/" . +default/search-project)
+   '("SPC" . projectile-find-file)
+   '("RET" . bookmark-jump)
+   '(";" . pp-eval-expression)
+   '(":" . execute-extended-command)
+   ;; (cons "TAB" persp-key-map)
+   (cons "w" window-prefix-map)))
+#+end_src
+
+#+RESULTS:
+
+
+*** Automatic =meow-insert= hooks
+Automatically switch to =meow-insert= mode for convenience.
+#+begin_src emacs-lisp :tangle yes
+(after! org
+    ;; Change to insert mode after certain org functions
+    (add-hook 'org-insert-heading-hook 'meow-insert)
+    ;; TODO check if src buffer is empty before switching to insert mode
+    (add-hook 'org-src-mode-hook 'meow-insert)
+    (add-hook 'org-capture-mode-hook 'meow-insert)
+    (add-hook 'org-log-buffer-setup-hook 'meow-insert)
+    (add-hook 'org-metareturn-hook 'meow-insert))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(after! git-commit
+    (add-hook
+     'git-commit-mode-hook
+     (defun +meow--git-commit-insert-mode ()
+       (when (bound-and-true-p meow-mode) (meow-insert-mode 1)))))
+#+end_src
+*** Meow Tree-sitter
+Add tree-sitter support to meow.
+#+begin_src emacs-lisp :tangle packages.el
+(package! meow-tree-sitter)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! meow-tree-sitter
+  :after (meow treesit)
+  :init
+  (meow-tree-sitter-register-defaults))
+#+end_src
+*** HACK Restore =helpful-describe-key=
+Meow for some reason overrides the mapping of =helpful-describe-key=. This restores that functionality.
+#+begin_src emacs-lisp :tangle yes
+(after! meow
+  (after! helpful
+    (map! [remap meow-describe-key] #'helpful-key)))
+#+end_src
+
+#+RESULTS:
+
+** Casual
+#+begin_src emacs-lisp :tangle packages.el
+(package! casual-suite)
+#+end_src
+
+#+begin_src elisp
+(use-package! casual-suite
+  :bind
+  (("M-g a" . #'casual-avy-tmenu))
+  :config
+  (setq casual-lib-use-unicode t))
+#+end_src
+** Which Key
+*** Show =which-key= buffer sooner
+#+begin_src emacs-lisp :tangle yes
+(after! which-key
+  (setq which-key-idle-delay 0.3))
+#+end_src
+** Windows
+#+begin_src emacs-lisp :tangle yes
+(map! :leader
+      (:prefix-map ("w" . "window")
+       :desc "Undo window config"           "u" #'winner-undo
+       :desc "Redo window config"           "U" #'winner-redo
+       "d" #'delete-window
+       "D" #'delete-other-windows
+       "s" #'split-window-below
+       "S" #'split-window-below
+       "v" #'split-window-right
+       "+" #'enlarge-window
+       "=" #'balance-windows
+       "-" #'shrink-window
+       "+" #'enlarge-window
+       "<" #'shrink-window-horizontally
+       ">" #'enlarge-window-horizontally
+       "h" #'windmove-left
+       "j" #'windmove-down
+       "k" #'windmove-up
+       "l" #'windmove-right
+       "H" #'windmove-swap-states-left
+       "J" #'windmove-swap-states-down
+       "K" #'windmove-swap-states-up
+       "L" #'windmove-swap-states-right
+       "o" #'delete-other-windows
+       "n" #'next-window-any-frame
+       "p" #'previous-window-any-frame))
+#+end_src
+
+
+** Workspace
+#+begin_src emacs-lisp :tangle yes
+(map! :leader (:when (modulep! :ui workspaces)
+       (:prefix-map ("TAB" . "workspace")
+        :desc "Display tab bar"           "TAB" #'+workspace/display
+        :desc "Switch workspace"          "."   #'+workspace/switch-to
+        :desc "Switch to last workspace"  "`"   #'+workspace/other
+        :desc "New workspace"             "n"   #'+workspace/new
+        :desc "New named workspace"       "N"   #'+workspace/new-named
+        :desc "Load workspace from file"  "l"   #'+workspace/load
+        :desc "Save workspace to file"    "s"   #'+workspace/save
+        :desc "Kill session"              "x"   #'+workspace/kill-session
+        :desc "Kill this workspace"       "d"   #'+workspace/kill
+        :desc "Delete saved workspace"    "D"   #'+workspace/delete
+        :desc "Rename workspace"          "r"   #'+workspace/rename
+        :desc "Restore last session"      "R"   #'+workspace/restore-last-session
+        :desc "Next workspace"            "]"   #'+workspace/switch-right
+        :desc "Previous workspace"        "["   #'+workspace/switch-left
+        :desc "Switch to 1st workspace"   "1"   #'+workspace/switch-to-0
+        :desc "Switch to 2nd workspace"   "2"   #'+workspace/switch-to-1
+        :desc "Switch to 3rd workspace"   "3"   #'+workspace/switch-to-2
+        :desc "Switch to 4th workspace"   "4"   #'+workspace/switch-to-3
+        :desc "Switch to 5th workspace"   "5"   #'+workspace/switch-to-4
+        :desc "Switch to 6th workspace"   "6"   #'+workspace/switch-to-5
+        :desc "Switch to 7th workspace"   "7"   #'+workspace/switch-to-6
+        :desc "Switch to 8th workspace"   "8"   #'+workspace/switch-to-7
+        :desc "Switch to 9th workspace"   "9"   #'+workspace/switch-to-8
+        :desc "Switch to final workspace" "0"   #'+workspace/switch-to-final)))
+#+end_src
+
+* Emacs
+* Term
+* Checkers
+* Tools
+** Magit
+*** Magit file icons
+#+begin_src emacs-lisp :tangle yes
+(after! magit
+  (setq magit-format-file-function #'magit-format-file-nerd-icons))
+#+end_src
+* OS
+* Languages
+** Org
+*** Editing
+**** Return follows link
+Pressing return follows the link
+#+begin_src emacs-lisp :tangle yes
+(after! org
+  (setq org-return-follows-link t))
+#+end_src
+
+*** Org directory
 #+begin_src emacs-lisp :tangle yes
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/Org")
 #+end_src
-** Appearance
-** Notes
-*** Denote
+*** Agenda
+**** Start week on Sunday
+#+begin_src emacs-lisp :tangle yes
+(after! org
+  (setq org-agenda-start-on-weekday 0))
+#+end_src
+*** Clock
+**** Pomodoro
+***** Appearance
+****** Add clock icon to pomodoro timer
+#+begin_src emacs-lisp :tangle yes
+(after! org-pomodoro
+  (setq org-pomodoro-format " %s"
+        org-pomodoro-short-break-format " Short Break %s"
+        org-pomodoro-long-break-format " Long Break %s"))
+#+end_src
+***** Prompt to start a new pomodoro after a break
+Prompt the user to start a new pomodoro after taking a break. Taken from:
+https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
+
+#+begin_src emacs-lisp :tangle yes
+(after! org-pomodoro
+  (defun my/org-pomodoro-restart ()
+    (interactive)
+    (let ((use-dialog-box nil))
+      (when (y-or-n-p "Start a new pomodoro?")
+        (save-window-excursion
+          (org-clock-goto)
+          (org-pomodoro)))))
+  (add-hook 'org-pomodoro-break-finished-hook 'my/org-pomodoro-restart))
+#+end_src
+*** Appearance
+*** Notes
+**** Denote
 
 #+begin_src emacs-lisp :tangle packages.el
 (package! denote)
@@ -392,7 +666,7 @@
   :config
   ;; hack
   ;; (setq denote-use-directory denote-directory)
-  (with-eval-after-load 'org-capture
+  (after! 'org-capture
     (add-to-list 'org-capture-templates
                  '("n" "New note (with Denote)" plain
                    (file denote-last-path)
