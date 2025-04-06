@@ -313,15 +313,14 @@
 (setq doom-theme 'catppuccin)
 
 #+end_src
-** Modus
+*** Modus
 #+begin_src emacs-lisp :tangle packages.el
 (package! modus-themes)
 #+end_src
-** Catppuccin
+*** Catppuccin
 #+begin_src emacs-lisp :tangle packages.el
 (package! catppuccin-theme)
 #+end_src
-
 * Editor
 ** Line Numbers
 #+begin_src emacs-lisp :tangle yes
@@ -402,6 +401,12 @@
                    :immediate-finish nil
                    :kill-buffer t
                    :jump-to-captured t)))
-  (denote-rename-buffer-mode 1)
-  )
+  (denote-rename-buffer-mode 1))
 #+end_src
+***** Consult Denote
+***** Denote Org
+* Email
+* App
+* Config
+
+
