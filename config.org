@@ -1,4 +1,4 @@
-#+title: Config
+#+title: Doom Emacs Config
 #+startup: fold
 
 * Doom
@@ -678,7 +678,13 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   (denote-rename-buffer-mode 1))
 #+end_src
 ***** Consult Denote
+#+begin_src emacs-lisp :tangle packages.el
+(package! consult-denote)
+#+end_src
 ***** Denote Org
+#+begin_src emacs-lisp :tangle packages.el
+(package! denote-org)
+#+end_src
 * Email
 * App
 * Config
