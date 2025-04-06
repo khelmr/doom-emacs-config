@@ -335,6 +335,25 @@
 #+begin_src emacs-lisp :tangle packages.el
 (package! catppuccin-theme)
 #+end_src
+** Spacious Padding
+#+begin_src emacs-lisp :tangle packages.el
+(package! spacious-padding)
+#+end_src
+#+begin_src emacs-lisp :tangle yes
+(use-package! spacious-padding
+  :hook (doom-init-ui . spacious-padding-mode)
+  :init
+  (setq spacious-padding-subtle-mode-line t))
+#+end_src
+** Pulsar
+#+begin_src emacs-lisp :tangle packages.el
+(package! pulsar)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! pulsar
+    :hook (doom-first-input . pulsar-global-mode))
+#+end_src
 * Editor
 ** Line Numbers
 #+begin_src emacs-lisp :tangle yes
