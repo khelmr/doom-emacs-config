@@ -92,6 +92,12 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 
+(after! doom-modeline
+  (setq doom-modeline-enable-word-count t))
+
+(after! doom-modeline
+  (setq doom-modeline-major-mode-icon t))
+
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
