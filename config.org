@@ -408,7 +408,6 @@
       :desc "Save file as..."             "S"   #'write-file))
 #+end_src
 
-
 ** Meow
 Set some defaults
 #+begin_src emacs-lisp :tangle yes
@@ -452,7 +451,6 @@ Add some keys from doom evil mode back into meow's leader keymap
 
 #+RESULTS:
 
-
 *** Automatic =meow-insert= hooks
 Automatically switch to =meow-insert= mode for convenience.
 #+begin_src emacs-lisp :tangle yes
@@ -492,8 +490,6 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
   (after! helpful
     (map! [remap meow-describe-key] #'helpful-key)))
 #+end_src
-
-#+RESULTS:
 
 ** Casual
 #+begin_src emacs-lisp :tangle packages.el
