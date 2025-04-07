@@ -750,6 +750,49 @@ Pressing return follows the link
   (map! :map org-gtd-clarify-map
         "C-c C-c" #'org-gtd-organize))
 #+end_src
+
+Basic gtd agenda (taken from https://github.com/rougier/emacs-gtd)
+#+begin_src emacs-lisp :tangle yes
+(after! org
+  (setq org-agenda-custom-commands
+      '(("g" "Get Things Done (GTD)"
+         ((agenda ""
+                  ((org-agenda-skip-function
+                    '(org-agenda-skip-entry-if 'deadline))
+                   (org-deadline-warning-days 0)))
+          (todo "TODO"
+                ((org-agenda-skip-function
+                  '(org-agenda-skip-entry-if 'deadline))
+                 (org-agenda-prefix-format "  %i %-12:c [%e] ")
+                 (org-agenda-overriding-header "\nTasks\n")))
+          (agenda nil
+                  ((org-agenda-entry-types '(:deadline))
+                   (org-agenda-format-date "")
+                   (org-deadline-warning-days 7)
+                   (org-agenda-skip-function
+                    '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
+                   (org-agenda-overriding-header "\nDeadlines")))
+          (tags-todo "inbox"
+                     ((org-agenda-prefix-format "  %?-12t% s")
+                      (org-agenda-overriding-header "\nInbox\n")))
+          (tags "CLOSED>=\"<today>\""
+                ((org-agenda-overriding-header "\nCompleted today\n"))))))))
+
+
+#+end_src
+
+
+**** Leader key bindings
+For some reason the emacs bindings for agend are not included under the =doom-leader-open-keymap=. Adding them back in.
+#+begin_src emacs-lisp :tangle yes
+(map! :map doom-leader-open-map
+        :desc "Agenda" "A" #'org-agenda
+        (:prefix ("a" . "org agenda")
+        :desc "Agenda"         "a"  #'org-agenda
+        :desc "Todo list"      "t"  #'org-todo-list
+        :desc "Tags search"    "m"  #'org-tags-view
+        :desc "View search"    "v"  #'org-search-view))
+#+end_src
 *** Clock
 **** Pomodoro
 ***** Add clock icon to pomodoro timer
@@ -833,8 +876,7 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 ;; HACK Prevents strange behavior interacting betwee org-noter and persp-mode that prevents the new frame from being closed. Avoid this by just preventing a new frame from being made in the first place.
 (after! org-noter
   (setq org-noter-always-create-frame nil
-        org-noter-kill-frame-at-session-end nil
-        org-noter-auto-save-last-location t))
+        org-noter-kill-frame-at-session-end nil))
 #+end_src
 
 ** Nix
