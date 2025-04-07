@@ -359,6 +359,26 @@
 (use-package! pulsar
     :hook (doom-first-input . pulsar-global-mode))
 #+end_src
+** Olivetti
+#+begin_src emacs-lisp :tangle packages.el
+(package! olivetti)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! olivetti
+  :custom
+  (olivetti-style 'fancy)
+  :hook
+  ((org-mode . olivetti-mode)
+   (markdown-mode . olivetti-mode)
+   (org-agenda-mode . olivetti-mode)))
+#+end_src
+*** Use mixed-pitch in modes with olivetti
+#+begin_src emacs-lisp :tangle yes
+(after! mixed-pitch-mode
+  (add-hook! olivetti-hook #'mixed-pitch-mode))
+#+end_src
+
 * Editor
 ** Line Numbers
 #+begin_src emacs-lisp :tangle yes
@@ -425,6 +445,7 @@
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
 #+end_src
+
 ** Files
 #+begin_src emacs-lisp :tangle yes
 (map! :leader (:prefix-map ("f" . "file")
