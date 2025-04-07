@@ -677,6 +677,12 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
 (after! magit
   (setq magit-format-file-function #'magit-format-file-nerd-icons))
 #+end_src
+** Lookup
+*** Pubmed Lookup Provider
+#+begin_src emacs-lisp :tangle yes
+(add-to-list '+lookup-provider-url-alist '("Pubmed" "https://pubmed.ncbi.nlm.nih.gov/?term=%s"))
+#+end_src
+
 * OS
 * Languages
 ** Org
