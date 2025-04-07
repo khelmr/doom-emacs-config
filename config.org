@@ -560,7 +560,8 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
        "L" #'windmove-swap-states-right
        "o" #'other-window
        "n" #'next-window-any-frame
-       "p" #'previous-window-any-frame))
+       "p" #'previous-window-any-frame
+       "w" #'other-window))
 #+end_src
 *** Transpose Frame
 #+begin_src emacs-lisp :tangle packages.el
@@ -575,6 +576,19 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
         "F" #'flop-frame
         "r" #'rotate-frame-clockwise
         "R" #'rotate-frame-anticlockwise))
+#+end_src
+*** Ace Window
+#+begin_src emacs-lisp :tangle packages.el
+(package! ace-window)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! ace-window
+  :bind
+  (([replace other-window] . ace-window))
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+        aw-scope 'frame))
 #+end_src
 
 ** Workspace
