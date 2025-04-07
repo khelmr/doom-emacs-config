@@ -858,5 +858,10 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 * Email
 * App
 * Config
-
-
+** Poll Everywhere
+#+begin_src emacs-lisp :tangle yes
+(defun +poll-everywhere (instructor)
+  "Open poll everywhere page for INSTRUCTOR."
+  (interactive "sInstructor: ")
+  (browse-url (concat "https://pollev.com/" instructor)))
+#+end_src
