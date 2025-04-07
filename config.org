@@ -514,6 +514,15 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
   (after! helpful
     (map! [remap meow-describe-key] #'helpful-key)))
 #+end_src
+*** Have =meow-kill= fall back on =meow-C-d=
+#+begin_src emacs-lisp :tangle yes
+(after! meow
+  (setq meow-selection-command-fallback '((meow-change . meow-change-char)
+ (meow-kill . meow-C-d)
+ (meow-cancel-selection . keyboard-quit)
+ (meow-pop-selection . meow-pop-grab)
+ (meow-beacon-change . meow-beacon-change-char))))
+#+end_src
 
 ** Casual
 #+begin_src emacs-lisp :tangle packages.el
@@ -701,7 +710,7 @@ Pressing return follows the link
 (setq org-directory "~/Documents/Org")
 #+end_src
 *** Agenda
-**** Agend Files
+**** Agenda Files
 #+begin_src emacs-lisp :tangle yes
 (setq org-agenda-files '("personal.org" "medical-school.org" "inbox.org"))
 #+end_src
@@ -809,6 +818,7 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 (package! denote-org)
 #+end_src
 *** Org Noter
+**** Fix undeletable pdf buffer after ending =org-noter-session=
 #+begin_src emacs-lisp :tangle yes
 ;; HACK Prevents strange behavior interacting betwee org-noter and persp-mode that prevents the new frame from being closed. Avoid this by just preventing a new frame from being made in the first place.
 (after! org-noter
@@ -816,7 +826,6 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
         org-noter-kill-frame-at-session-end nil
         org-noter-auto-save-last-location t))
 #+end_src
-
 
 ** Nix
 *** Use alejandra as formatter
