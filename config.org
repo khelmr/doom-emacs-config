@@ -701,15 +701,39 @@ Pressing return follows the link
 (setq org-directory "~/Documents/Org")
 #+end_src
 *** Agenda
+**** Agend Files
+#+begin_src emacs-lisp :tangle yes
+(setq org-agenda-files '("personal.org" "medical-school.org" "inbox.org"))
+#+end_src
 **** Start week on Sunday
 #+begin_src emacs-lisp :tangle yes
 (after! org
   (setq org-agenda-start-on-weekday 0))
 #+end_src
+**** Org-gtd
+#+begin_src emacs-lisp :tangle packages.el
+(package! org-gtd)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-gtd
+  :after org
+  :config
+  (setq org-edna-use-inheritance t)
+  (org-edna-mode)
+  (map! :leader
+        (:prefix ("d" . "gtd")
+                 "c" #'org-gtd-capture
+                 "e" #'org-gtd-engage
+                 "p" #'org-gtd-process-inbox
+                 "n" #'org-gtd-show-all-next
+                 "s" #'org-gtd-review-stuck-projects))
+  (map! :map org-gtd-clarify-map
+        "C-c C-c" #'org-gtd-organize))
+#+end_src
 *** Clock
 **** Pomodoro
-***** Appearance
-****** Add clock icon to pomodoro timer
+***** Add clock icon to pomodoro timer
 #+begin_src emacs-lisp :tangle yes
 (after! org-pomodoro
   (setq org-pomodoro-format " %s"
