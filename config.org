@@ -57,9 +57,9 @@
        ;;unicode           ; extended unicode support for various languages
        (vc-gutter +pretty) ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
-       ;;window-select     ; visually switch windows
+       window-select     ; visually switch windows
        workspaces       ; tab emulation, persistence & separate workspaces
-       ;;zen               ; distraction-free coding or writing
+       zen               ; distraction-free coding or writing
 
        :editor
        ;; (evil +everywhere); come to the dark side, we have cookies
@@ -588,11 +588,13 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
        "J" #'windmove-swap-states-down
        "K" #'windmove-swap-states-up
        "L" #'windmove-swap-states-right
-       "o" #'other-window
+       "o" #'delete-other-windows
        "n" #'next-window-any-frame
        "p" #'previous-window-any-frame
        "w" #'other-window))
 #+end_src
+
+
 *** Transpose Frame
 #+begin_src emacs-lisp :tangle packages.el
 (package! transpose-frame)
@@ -606,19 +608,6 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
         "F" #'flop-frame
         "r" #'rotate-frame-clockwise
         "R" #'rotate-frame-anticlockwise))
-#+end_src
-*** Ace Window
-#+begin_src emacs-lisp :tangle packages.el
-(package! ace-window)
-#+end_src
-
-#+begin_src emacs-lisp :tangle yes
-(use-package! ace-window
-  :bind
-  (([replace other-window] . ace-window))
-  :config
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
-        aw-scope 'frame))
 #+end_src
 
 ** Workspace
