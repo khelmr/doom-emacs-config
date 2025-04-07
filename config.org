@@ -793,6 +793,49 @@ For some reason the emacs bindings for agend are not included under the =doom-le
         :desc "Tags search"    "m"  #'org-tags-view
         :desc "View search"    "v"  #'org-search-view))
 #+end_src
+*** Capture
+**** Doct
+Use doct for improved org-capture template creation.
+#+begin_src emacs-lisp :tangle packages.el
+(package! doct)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+(after! (:and org doct)
+  (setq (doct '(("Inbox" :keys "i" :file (file "inbox.org"))))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+(("i" "Inbox" entry (file org-gtd-inbox-path) "* %?\n%U\n\n  %i" :kill-buffer t)
+ ("l" "Inbox with link" entry (file org-gtd-inbox-path) "* %?\n%U\n\n  %i\n  %a"
+  :kill-buffer t))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+(("t" "Personal todo" entry (file+headline +org-capture-todo-file "Inbox")
+  "* [ ] %?\n%i\n%a" :prepend t)
+ ("n" "Personal notes" entry (file+headline +org-capture-notes-file "Inbox")
+  "* %u %?\n%i\n%a" :prepend t)
+ ("j" "Journal" entry (file+olp+datetree +org-capture-journal-file)
+  "* %U %?\n%i\n%a" :prepend t)
+ ("p" "Templates for projects")
+ ("pt" "Project-local todo" entry
+  (file+headline +org-capture-project-todo-file "Inbox") "* TODO %?\n%i\n%a"
+  :prepend t)
+ ("pn" "Project-local notes" entry
+  (file+headline +org-capture-project-notes-file "Inbox") "* %U %?\n%i\n%a"
+  :prepend t)
+ ("pc" "Project-local changelog" entry
+  (file+headline +org-capture-project-changelog-file "Unreleased")
+  "* %U %?\n%i\n%a" :prepend t)
+ ("o" "Centralized templates for projects")
+ ("ot" "Project todo" entry #'+org-capture-central-project-todo-file
+  "* TODO %?\n %i\n %a" :heading "Tasks" :prepend nil)
+ ("on" "Project notes" entry #'+org-capture-central-project-notes-file
+  "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
+ ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file
+  "* %U %?\n %i\n %a" :heading "Changelog" :prepend t))
+#+end_src
 *** Clock
 **** Pomodoro
 ***** Add clock icon to pomodoro timer
