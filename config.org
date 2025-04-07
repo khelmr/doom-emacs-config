@@ -376,7 +376,7 @@
 *** Use mixed-pitch in modes with olivetti
 #+begin_src emacs-lisp :tangle yes
 (after! mixed-pitch-mode
-  (add-hook! olivetti-hook #'mixed-pitch-mode))
+  (add-hook! olivetti-mode #'mixed-pitch-mode))
 #+end_src
 
 * Editor
@@ -921,7 +921,6 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   (setq org-noter-always-create-frame nil
         org-noter-kill-frame-at-session-end nil))
 #+end_src
-
 ** Nix
 *** Use alejandra as formatter
 #+begin_src emacs-lisp :tangle yes
