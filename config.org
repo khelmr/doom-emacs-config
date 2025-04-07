@@ -814,8 +814,17 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 (after! org-noter
   (setq org-noter-always-create-frame nil
         org-noter-kill-frame-at-session-end nil
-        org-noter-auto-save-last-location nil))
+        org-noter-auto-save-last-location t))
 #+end_src
+
+
+** Nix
+*** Use alejandra as formatter
+#+begin_src emacs-lisp :tangle yes
+(after! nix-mode
+  (set-formatter! 'alejandra '("alejandra" "--quiet") :modes '(nix-mode)))
+#+end_src
+
 * Email
 * App
 * Config
