@@ -344,11 +344,20 @@
 #+begin_src emacs-lisp :tangle packages.el
 (package! spacious-padding)
 #+end_src
+
 #+begin_src emacs-lisp :tangle yes
 (use-package! spacious-padding
   :hook (doom-init-ui . spacious-padding-mode)
   :init
-  (setq spacious-padding-subtle-mode-line t))
+  (setq spacious-padding-subtle-mode-line t
+        spacious-padding-widths '(:internal-border-width 15
+                             :right-divider-width 20
+                             :header-line-width 4
+                             :mode-line-width 1
+                             :tab-width 3
+                             :scroll-bar-width 8
+                             :left-fringe-width 8
+                             :right-fringe-width 13)))
 #+end_src
 ** Pulsar
 #+begin_src emacs-lisp :tangle packages.el
