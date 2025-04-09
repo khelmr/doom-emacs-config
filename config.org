@@ -780,19 +780,21 @@ Basic gtd agenda (taken from https://github.com/rougier/emacs-gtd)
 
 
 #+end_src
-
-
-**** Leader key bindings
-For some reason the emacs bindings for agend are not included under the =doom-leader-open-keymap=. Adding them back in.
-#+begin_src emacs-lisp :tangle yes
-(map! :map doom-leader-open-map
-        :desc "Agenda" "A" #'org-agenda
-        (:prefix ("a" . "org agenda")
-        :desc "Agenda"         "a"  #'org-agenda
-        :desc "Todo list"      "t"  #'org-todo-list
-        :desc "Tags search"    "m"  #'org-tags-view
-        :desc "View search"    "v"  #'org-search-view))
+**** Org Super Agenda
+#+begin_src emacs-lisp :tangle packages.el
+(package! org-super-agenda)
 #+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-super-agenda
+  :after org)
+#+end_src
+**** Agendas
+***** Default
+#+begin_src emacs-lisp :tangle yes
+#+end_src
+
+
 *** Capture
 **** Doct
 Use doct for improved org-capture template creation.
@@ -800,6 +802,7 @@ Use doct for improved org-capture template creation.
 (package! doct)
 #+end_src
 
+**** Capture Templates
 #+begin_src emacs-lisp :tangle no
 (after! (:and org doct)
   (setq (doct '(("Inbox" :keys "i" :file (file "inbox.org"))))))
@@ -836,6 +839,7 @@ Use doct for improved org-capture template creation.
  ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file
   "* %U %?\n %i\n %a" :heading "Changelog" :prepend t))
 #+end_src
+
 *** Clock
 **** Pomodoro
 ***** Add clock icon to pomodoro timer
