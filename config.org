@@ -5,7 +5,6 @@
 ** Init
 #+begin_src elisp :tangle init.el
 ;;; init.el -*- lexical-binding: t; -*-
-
 ;; This file controls what Doom modules are enabled and what order they load
 ;; in. Remember to run 'doom sync' after modifying it!
 
@@ -478,6 +477,7 @@ Set some defaults
   (meow-normal-define-key
  '("d" . meow-kill)
  '("g" . "M-g")
+ '("M" . join-line)
  '("s" . avy-goto-char-2)
  '("u" . undo-fu-only-undo)
  '("U" . undo-fu-only-redo)
@@ -859,6 +859,12 @@ appropriate.  In tables, insert a new row or end the table."
 (setq org-agenda-files '("personal.org" "medical-school.org" "inbox.org"))
 #+end_src
 **** Appearance
+**** Time Grid
+#+begin_src emacs-lisp :tangle yes
+(after! org
+  (setq org-agenda-time-grid '((daily) () "" "")))
+#+end_src
+
 **** Start week on Sunday
 #+begin_src emacs-lisp :tangle yes
 (after! org
