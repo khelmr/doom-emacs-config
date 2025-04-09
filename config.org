@@ -724,10 +724,22 @@ Pressing return follows the link
 #+begin_src emacs-lisp :tangle yes
 (setq org-agenda-files '("personal.org" "medical-school.org" "inbox.org"))
 #+end_src
+**** Appearance
 **** Start week on Sunday
 #+begin_src emacs-lisp :tangle yes
 (after! org
   (setq org-agenda-start-on-weekday 0))
+#+end_src
+**** Leader key bindings
+For some reason the emacs bindings for agend are not included under the =doom-leader-open-keymap=. Adding them back in.
+#+begin_src emacs-lisp :tangle yes
+(map! :map doom-leader-open-map
+        :desc "Agenda" "A" #'org-agenda
+        (:prefix ("a" . "org agenda")
+        :desc "Agenda"         "a"  #'org-agenda
+        :desc "Todo list"      "t"  #'org-todo-list
+        :desc "Tags search"    "m"  #'org-tags-view
+        :desc "View search"    "v"  #'org-search-view))
 #+end_src
 **** Org-gtd
 #+begin_src emacs-lisp :tangle packages.el
