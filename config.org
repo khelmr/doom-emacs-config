@@ -382,7 +382,7 @@
    (markdown-mode . olivetti-mode)
    (org-agenda-mode . olivetti-mode)))
 #+end_src
-*** Use mixed-pitch in modes with olivetti
+*** Use mixed-pitch in modes with olivetti :ui:
 #+begin_src emacs-lisp :tangle yes
 (after! mixed-pitch-mode
   (add-hook! olivetti-mode #'mixed-pitch-mode))
@@ -718,9 +718,32 @@ Combine alphapapa's =unpackaged/org-return=dwim= with doom's =+org/dwim= integra
 #+end_src
 
 * Emacs
+** Undo
+*** Vundo :builtin:
+**** Map vundo on leader keymap :keybinding:
+#+begin_src emacs-lisp :tangle yes
+(after! vundo
+  (map! :map doom-leader-open-map
+      "u" #'vundo))
+#+end_src
+
 * Term
+** Eat
+#+begin_src emacs-lisp :tangle packages.el
+(package! eat)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! eat
+  :custom
+  (eat-kill-buffer-on-exit t)
+  :hook (eshell-load . eat-eshell-mode)
+  (eshell-load . eat-eshell-visual-command-mode)
+  (eat-mode . goto-address-mode))
+#+end_src
 * Checkers
 * Tools
+** Biblio
 ** Magit
 *** Magit file icons
 #+begin_src emacs-lisp :tangle yes
@@ -732,7 +755,6 @@ Combine alphapapa's =unpackaged/org-return=dwim= with doom's =+org/dwim= integra
 #+begin_src emacs-lisp :tangle yes
 (add-to-list '+lookup-provider-url-alist '("Pubmed" "https://pubmed.ncbi.nlm.nih.gov/?term=%s"))
 #+end_src
-
 * OS
 * Languages
 ** Org
