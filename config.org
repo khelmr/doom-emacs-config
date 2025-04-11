@@ -756,6 +756,22 @@ Combine alphapapa's =unpackaged/org-return=dwim= with doom's =+org/dwim= integra
 #+begin_src emacs-lisp :tangle yes
 (add-to-list '+lookup-provider-url-alist '("Pubmed" "https://pubmed.ncbi.nlm.nih.gov/?term=%s"))
 #+end_src
+** GPTel
+#+begin_src emacs-lisp :tangle packages.el
+(package! gptel :recipe (:nonrecursive t))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! gptel
+  :config
+  (setq gptel-model   'deepseek-r1
+      gptel-backend (gptel-make-ollama "Ollama"             ;Any name of your choosing
+                                       :host "localhost:11434"               ;Where it's running
+                                       :stream t                             ;Stream responses
+                                       :models '(deepseek-r1:latest))))          ;List of models))
+
+(map! :map doom-leader-open-map "g" #'gptel)
+#+end_src
 * OS
 * Languages
 ** Org
