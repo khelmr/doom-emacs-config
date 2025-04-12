@@ -654,10 +654,15 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
 #+end_src
 
 ** Files
+*** Save keybindings
 #+begin_src emacs-lisp :tangle yes
 (map! :leader (:prefix-map ("f" . "file")
       :desc "Save file"                   "s"   #'save-buffer
       :desc "Save file as..."             "S"   #'write-file))
+#+end_src
+*** Delete by moving to trash
+#+begin_src emacs-lisp :tangle yes
+(setq-default delete-by-moving-to-trash t)
 #+end_src
 
 ** Meow
