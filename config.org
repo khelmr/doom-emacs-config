@@ -687,6 +687,14 @@ Set some defaults
  '("/" . meow-visit)
  '("?" . meow-query-replace-regexp)))
 #+end_src
+*** Motion mode tweaks
+#+begin_src emacs-lisp :tangle yes
+(after! meow
+  (meow-motion-define-key
+   '("j" . "C-n")
+   '("k" . "C-p")))
+#+end_src
+
 *** Leader keys
 Add some keys from doom evil mode back into meow's leader keymap
 #+begin_src emacs-lisp :tangle yes
