@@ -1131,7 +1131,28 @@ appropriate.  In tables, insert a new row or end the table."
 (setq org-agenda-files '("personal.org" "medical-school.org" "inbox.org"))
 #+end_src
 **** Appearance
-**** Time Grid
+#+begin_src emacs-lisp :tangle yes
+(after! org-agenda
+  (setq org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-deadline-if-done t
+        org-agenda-include-deadlines t
+        org-agenda-follow-indirect t
+        org-agenda-block-separator nil))
+#+end_src
+**** Org-expiry
+#+begin_src emacs-lisp :tangle no
+(package! org-expiry)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-expiry
+  :after org
+  :config
+  (setq org-expiry-created-property-name "CREATED"
+        org-expiry-inactive-timestamps t))
+#+end_src
+
+**** COMMENT Time Grid
 #+begin_src emacs-lisp :tangle yes
 (after! org
   (setq org-agenda-time-grid '((daily) () "" "")))
@@ -1153,7 +1174,7 @@ For some reason the emacs bindings for agend are not included under the =doom-le
         :desc "Tags search"    "m"  #'org-tags-view
         :desc "View search"    "v"  #'org-search-view))
 #+end_src
-**** Org-gtd
+**** COMMENT Org-gtd
 #+begin_src emacs-lisp :tangle packages.el
 (package! org-gtd)
 #+end_src
@@ -1178,36 +1199,65 @@ For some reason the emacs bindings for agend are not included under the =doom-le
         "C-c C-c" #'org-gtd-organize))
 #+end_src
 
-
+**** GTD
 Basic gtd agenda (taken from https://github.com/rougier/emacs-gtd)
 #+begin_src emacs-lisp :tangle yes
-(after! org
+(after! org-agenda
   (setq org-agenda-custom-commands
       '(("g" "Get Things Done (GTD)"
-         ((agenda ""
-                  ((org-agenda-skip-function
-                    '(org-agenda-skip-entry-if 'deadline))
-                   (org-deadline-warning-days 0)))
+         ((todo "SCHEDULED<=\"<today\""
+                ((org-agenda-overriding-header "\nOVERDUE TASKS\n")))
+          (tags "inbox"
+                     ((org-agenda-prefix-format "  %?-12t% s")
+                      (org-agenda-overriding-header "\nInbox: clarify and organize\n")
+                      ;; hide inbox tag; we already know they're inbox entries
+                      (org-agenda-hide-tags-regexp "inbox")))
+          (agenda nil
+                  ((org-scheduled-past-days 0)
+                   (org-deadline-warning-days 0)
+                   (org-agenda-start-day "+0d")
+                   (org-agenda-span 2)
+                   (org-super-agenda-groups
+                    '((:name "Today"
+                       :time-grid t
+                       :date today
+                       :scheduled today
+                       :order 1)
+                      ;; (:name "Tomorrow"
+                      ;;        :time-grid t
+                      ;;        :date tomorrow
+                      ;;        :scheduled tomorrow
+                      ;;        :order 2)
+                      ))))
           (todo "TODO"
                 ((org-agenda-skip-function
-                  '(org-agenda-skip-entry-if 'deadline))
+                  '(org-agenda-skip-entry-if 'deadline 'scheduled))
                  (org-agenda-prefix-format "  %i %-12:c [%e] ")
-                 (org-agenda-overriding-header "\nTasks\n")))
+                 (org-agenda-overriding-header "\nTasks: can be done\n")))
+          (todo "HOLD"
+                ((org-agenda-prefix-format "  %i %-12:c [%e] ")
+                 (org-agenda-overriding-header "\nTasks: on hold\n")))
+          (todo "STRT"
+                ((org-agenda-prefix-format "  %i %-12:c [%e] ")
+                 (org-agenda-overriding-header "\nTask: active \n")))
+          (tags "CLOSED>=\"<today>\""
+                ((org-agenda-overriding-header "\nCompleted today\n")))
           (agenda nil
                   ((org-agenda-entry-types '(:deadline))
-                   (org-agenda-format-date "")
-                   (org-deadline-warning-days 7)
-                   (org-agenda-skip-function
-                    '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
+                   ;; (org-agenda-format-date "")
+                   (org-agenda-start-day "+0d")
+                   (org-deadline-warning-days 0)
+                   (org-agenda-span 'week)
+                   (org-agenda-use-time-grid nil)
+                   ;; (org-agenda-skip-function
+                   ;;  '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
                    (org-agenda-overriding-header "\nDeadlines")))
-          (tags-todo "inbox"
-                     ((org-agenda-prefix-format "  %?-12t% s")
-                      (org-agenda-overriding-header "\nInbox\n")))
-          (tags "CLOSED>=\"<today>\""
-                ((org-agenda-overriding-header "\nCompleted today\n"))))))))
+
+          )))))
 
 
 #+end_src
+
 **** Org Super Agenda
 #+begin_src emacs-lisp :tangle packages.el
 (package! org-super-agenda)
