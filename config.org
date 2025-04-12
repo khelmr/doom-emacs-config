@@ -307,6 +307,74 @@
 * Input
 * Completion
 * UI
+** Doom Dashboard
+*** Set splash image and randomize
+#+begin_src emacs-lisp :tangle yes
+(setq +fancy-splash-image-directory (expand-file-name "assets/splash-images/" doom-user-dir))
+
+(defun +doom-dashboard-randomize-splash ()
+  (setq fancy-splash-image (let ((splash-images (directory-files +fancy-splash-image-directory t "^[^.].*")))
+                           (nth (random (length splash-images)) splash-images))))
+
+(add-hook! '+doom-dashboard-mode-hook #'+doom-dashboard-randomize-splash)
+#+end_src
+*** Minimal dashboard
+#+begin_src emacs-lisp :tangle yes
+(setq +doom-dashboard-functions
+      (list #'doom-dashboard-widget-banner
+            #'doom-dashboard-widget-loaded))
+
+
+(defun +doom-dashboard-tweak (&optional _)
+  (with-current-buffer (get-buffer +doom-dashboard-name)
+    (setq-local line-spacing 0.2
+                ;; mode-line-format nil
+                ;; mode-name ""
+                )
+    ;; (hl-line-mode 0)
+    ))
+
+(add-hook! '+doom-dashboard-mode-hook #'+doom-dashboard-tweak)
+(custom-set-faces! '(doom-dashboard-footer :inherit font-lock-doc-face))
+;; (add-hook! 'doom-after-init-hook #'+doom-dashboard-tweak)
+#+end_src
+
+#+RESULTS:
+| doom--customize-themes-h-51 |
+*** Dashboard keybindings
+#+begin_src emacs-lisp :tangle yes
+(defun +doom-dashboard-setup-modified-keymap ()
+  (setq +doom-dashboard-mode-map (make-sparse-keymap))
+  (map! :map +doom-dashboard-mode-map
+        :desc "Agenda" "a" #'org-agenda
+        :desc "Find file" "f" #'find-file
+        :desc "Recent files" "r" #'consult-recent-file
+        :desc "Restore session" "R" #'doom/quickload-session
+        :desc "Config dir" "C" #'doom/open-private-config
+        :desc "Open config.org" "c" (cmd! (find-file (expand-file-name "config.org" doom-user-dir)))
+        ;; :desc "Open org-mode root"  "O" (cmd! (find-file (expand-file-name "lisp/org/" doom-user-dir)))
+        :desc "Open dotfile" "." (cmd! (doom-project-find-file "~/.config/"))
+        :desc "Notes" "n" #'denote-open-or-create
+        :desc "Switch buffer" "b" #'+vertico/switch-workspace-buffer
+        :desc "Switch buffers (all)" "B" #'consult-buffer
+        :desc "Open bookmarks" "RET" #'bookmark-jump
+        :desc "Doom documentation" "H" #'doom/help
+        :desc "IBuffer" "i" #'ibuffer
+        ;; :desc "Previous buffer" "p" #'previous-buffer
+        :desc "Set theme" "t" #'consult-theme
+        :desc "Quit" "Q" #'save-buffers-kill-terminal
+        :desc "Open project" "p" #' projectile-switch-project
+        :desc "Show keybindings" "h" (cmd! (which-key-show-keymap '+doom-dashboard-mode-map))))
+
+(add-transient-hook! #'+doom-dashboard-mode (+doom-dashboard-setup-modified-keymap))
+(add-transient-hook! #'+doom-dashboard-mode :append (+doom-dashboard-setup-modified-keymap))
+(add-hook! 'doom-init-ui-hook :append (+doom-dashboard-setup-modified-keymap))
+#+end_src
+
+#+RESULTS:
+
+
+
 ** Modeline :builtin:
 *** Show wordcount in modeline :appearance:
 #+begin_src emacs-lisp :tangle yes
