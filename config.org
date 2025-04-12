@@ -313,11 +313,9 @@
 (setq +fancy-splash-image-directory (expand-file-name "assets/splash-images/" doom-user-dir))
 
 (defun +doom-dashboard-randomize-splash ()
+  (interactive)
   (setq fancy-splash-image (let ((splash-images (directory-files +fancy-splash-image-directory t "^[^.].*")))
                            (nth (random (length splash-images)) splash-images))))
-
-(add-hook! '+doom-dashboard-mode-hook #'+doom-dashboard-randomize-splash)
-(advice-add '+doom-dashboard-randomize-splash :after #'+doom-dashboard-reload)
 #+end_src
 
 
@@ -330,25 +328,27 @@
                 mode-name ""
                 cursor-type nil
                 visible-cursor nil
-                hl-line-mode 0
+                ;; meow-cursor-type-region-cursor nil
+                ;; hl-line-mode 0
                 )
-    ;; (hl-line-mode 0)
+    (hl-line-mode 0)
     ;; )
 )
 
-(add-hook! '+doom-dashboard-mode-hook #'+doom-dashboard-tweak)
+;; (add-hook! '+doom-dashboard-mode-hook #'+doom-dashboard-tweak)
 ;; (custom-set-faces! '(doom-dashboard-footer :inherit font-lock-doc-face))
-(add-hook! 'doom-after-init-hook #'+doom-dashboard-tweak)
+;; (add-hook! 'doom-after-init-hook #'+doom-dashboard-tweak)
+;; (add-hook! '+doom-dashboard-functions #'+doom-dashboard-tweak)
 #+end_src
 
-#+RESULTS:
-| doom--customize-themes-h-51 |
-*** Dashboard keybindings
+*** Dashboard keybindings :keybindings:
 #+begin_src emacs-lisp :tangle yes
 (defun +doom-dashboard-setup-modified-keymap ()
   (setq +doom-dashboard-mode-map (make-sparse-keymap))
   (map! :map +doom-dashboard-mode-map
         :desc "Agenda" "a" #'org-agenda
+        :desc "Capture" "X" #'org-capture
+        :desc "Scratch Buffer" "x" #'doom/switch-to-scratch-buffer
         :desc "Find file" "f" #'find-file
         :desc "Recent files" "r" #'consult-recent-file
         :desc "Restore session" "R" #'doom/quickload-session
@@ -444,15 +444,16 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
      (+doom-dashboard--center
       +doom-dashboard--width
       (with-temp-buffer
-        (insert-text-button
-         line
-         'action
-         (lambda (_) (+doom-dashboard-reload t))
-         'face '(:inherit doom-dashboard-menu-title :slant italic)
-         'mouse-face 'doom-dashboard-menu-title
-         'help-echo "Random phrase"
-         'follow-link t)
-        (buffer-string))))
+        ;; (insert-text-button
+         (insert (propertize line 'face '(:inherit doom-dashboard-menu-title :slant italic)))
+         ;; 'action
+         ;; (lambda (_) (+doom-dashboard-reload t))
+         ;; 'face '(:inherit doom-dashboard-menu-title :slant italic)
+         ;; 'mouse-face 'doom-dashboard-menu-title
+         ;; 'help-echo "Random phrase"
+         ;; 'follow-link t)
+        (buffer-string)
+        )))
    (split-string
     (with-temp-buffer
       (insert (splash-phrase))
@@ -463,6 +464,7 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
     )
    "\n"
    ))
+(add-hook! '+doom-dashboard-functions :append #'splash-phrase-dashboard-formatted)
 
 (defun splash-phrase-dashboard-insert ()
   "Insert the splash phrase surrounded by newlines."
@@ -475,9 +477,10 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
    (+doom-dashboard--center
     (- +doom-dashboard--width 2)
     (with-temp-buffer
-      (insert-text-button (propertize "🌸" 'face '(:height 200))
-                          'action (lambda (_) (+doom-dashboard-reload t)))
+      (insert
+       (propertize "🌸" 'face '(:height 200)))
       (buffer-string)))))
+(add-hook! '+doom-dashboard-functions :append #'+doom-dashboard-flower)
 #+end_src
 
 #+RESULTS:
@@ -486,17 +489,15 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
 *** Adjust doom-dashboard functions
 #+begin_src emacs-lisp :tangle yes
 (setq +doom-dashboard-functions
-      (list #'doom-dashboard-widget-banner
+      (list #'+doom-dashboard-tweak
+            #'+doom-dashboard-randomize-splash
+            #'doom-dashboard-widget-banner
             #'doom-dashboard-widget-loaded
             #'splash-phrase-dashboard-insert
             #'+doom-dashboard-flower
             ))
 
 #+end_src
-
-#+RESULTS:
-| doom-dashboard-widget-banner | doom-dashboard-widget-loaded | splash-phrase-dashboard-insert |
-
 
 
 ** Modeline :builtin:
