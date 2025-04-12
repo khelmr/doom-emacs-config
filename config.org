@@ -1373,16 +1373,88 @@ Use doct for improved org-capture template creation.
 (package! doct)
 #+end_src
 
-**** Capture Templates
-#+begin_src emacs-lisp :tangle no
-(after! (:and org doct)
-  (setq (doct '(("Inbox" :keys "i" :file (file "inbox.org"))))))
+#+begin_src emacs-lisp :tangle yes
+(use-package! doct
+  :commands doct
+  :after org)
 #+end_src
 
+**** Capture Templates
+#+begin_src emacs-lisp :tangle yes
+(after! (:and org denote)
+  (setq org-capture-templates (doct '(("Inbox"
+                                       :keys "i"
+                                       :file "inbox.org"
+                                       :type entry
+                                       :prepend t
+                                       :template ("* %?"
+                                                  ":PROPERTIES:"
+                                                  ":CREATED: %U"
+                                                  ":END:"
+                                                  "%i"
+                                                  "%a")
+                                       :kill-buffer t
+                                       )
+                                      ("Todo" :keys "t"
+                                       :file "inbox.org"
+                                       :type entry
+                                       :prepend t
+                                       :template ("* TODO %?"
+                                                  ":PROPERTIES:"
+                                                  ":CREATED: %U"
+                                                  ":END:"
+                                                  "%i"
+                                                  "%a"))
+                                      ("Calendar" :keys "c"
+                                       :file "inbox.org"
+                                       :type entry
+                                       :prepend t
+                                       :template ("* %? :calendar:"
+                                                  ":PROPERTIES:"
+                                                  ":CREATED: %U"
+                                                  ":END:"
+                                                  "%i"))
+                                      ("Meeting" :keys "m"
+                                       :file "inbox.org"
+                                       :type entry
+                                       :prepend t
+                                       :template ("* %? :meeting:"
+                                                  ":PROPERTIES:"
+                                                  ":CREATED: %U"
+                                                  ":END:"
+                                                  "%i"))
+                                      ("Email" :keys "@"
+                                       :file "inbox.org"
+                                       :type entry
+                                       :prepend t
+                                       :template ("* %? :email:"
+                                                  ":PROPERTIES:"
+                                                  ":CREATED: %U"
+                                                  ":END:"
+                                                  "%i"))
+                                      ("Project" :keys "p"
+                                       :file "inbox.org"
+                                       :type entry
+                                       :prepend t
+                                       :template ("* PROJ %?"
+                                                  ":PROPERTIES:"
+                                                  ":CREATED: %U"
+                                                  ":END:"
+                                                  "%i"))
+                                      ("School" :keys "s"
+                                       :file "medical-school.org"
+                                       )
+                                      )))
+)
+#+end_src
+
+#+RESULTS:
+
 #+begin_src emacs-lisp :tangle no
-(("i" "Inbox" entry (file org-gtd-inbox-path) "* %?\n%U\n\n  %i" :kill-buffer t)
+(("i" "Inbox" entry (file ) "* %?\n%U\n\n  %i" :kill-buffer t)
  ("l" "Inbox with link" entry (file org-gtd-inbox-path) "* %?\n%U\n\n  %i\n  %a"
-  :kill-buffer t))
+  :kill-buffer t)
+ ("y" "Inbox with clipboard" (file)))
 #+end_src
 
 #+begin_src emacs-lisp :tangle no
