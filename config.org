@@ -839,13 +839,22 @@ Combine alphapapa's =unpackaged/org-return=dwim= with doom's =+org/dwim= integra
 #+begin_src emacs-lisp :tangle yes
 (use-package! gptel
   :config
-  (setq gptel-model   'deepseek-r1
+  (setq gptel-model   'deepseek-r1:latest
       gptel-backend (gptel-make-ollama "Ollama"             ;Any name of your choosing
                                        :host "localhost:11434"               ;Where it's running
                                        :stream t                             ;Stream responses
-                                       :models '(deepseek-r1:latest))))          ;List of models))
+                                       :models '(deepseek-r1:latest))
+      gptel-default-mode 'org-mode))
 
 (map! :map doom-leader-open-map "g" #'gptel)
+#+end_src
+
+
+** Calc
+#+begin_src emacs-lisp :tangle yes
+(after! calc
+  (setq calc-angle-mode 'rad
+        calc-symbolic-mode t))
 #+end_src
 * OS
 * Languages
