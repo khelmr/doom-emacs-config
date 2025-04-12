@@ -990,8 +990,11 @@ For some reason the emacs bindings for agend are not included under the =doom-le
 #+begin_src emacs-lisp :tangle yes
 (use-package! org-gtd
   :after org
+  :init
+  (setq org-gtd-update-ack "3.0.0")
   :config
-  (setq org-edna-use-inheritance t)
+  (setq org-edna-use-inheritance t
+        org-gtd-directory (expand-file-name "Agenda/" org-directory))
   (org-edna-mode)
   (map! :leader
         (:prefix ("d" . "gtd")
