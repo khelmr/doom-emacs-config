@@ -317,26 +317,28 @@
                            (nth (random (length splash-images)) splash-images))))
 
 (add-hook! '+doom-dashboard-mode-hook #'+doom-dashboard-randomize-splash)
+(advice-add '+doom-dashboard-randomize-splash :after #'+doom-dashboard-reload)
 #+end_src
+
+
 *** Minimal dashboard
 #+begin_src emacs-lisp :tangle yes
-(setq +doom-dashboard-functions
-      (list #'doom-dashboard-widget-banner
-            #'doom-dashboard-widget-loaded))
-
-
 (defun +doom-dashboard-tweak (&optional _)
-  (with-current-buffer (get-buffer +doom-dashboard-name)
+  ;; (with-current-buffer (get-buffer +doom-dashboard-name)
     (setq-local line-spacing 0.2
-                ;; mode-line-format nil
-                ;; mode-name ""
+                mode-line-format nil
+                mode-name ""
+                cursor-type nil
+                visible-cursor nil
+                hl-line-mode 0
                 )
     ;; (hl-line-mode 0)
-    ))
+    ;; )
+)
 
 (add-hook! '+doom-dashboard-mode-hook #'+doom-dashboard-tweak)
-(custom-set-faces! '(doom-dashboard-footer :inherit font-lock-doc-face))
-;; (add-hook! 'doom-after-init-hook #'+doom-dashboard-tweak)
+;; (custom-set-faces! '(doom-dashboard-footer :inherit font-lock-doc-face))
+(add-hook! 'doom-after-init-hook #'+doom-dashboard-tweak)
 #+end_src
 
 #+RESULTS:
@@ -372,6 +374,128 @@
 #+end_src
 
 #+RESULTS:
+*** Add splash phrases
+Taken from https://tecosaur.github.io/emacs-config/config.html
+#+begin_src emacs-lisp :tangle yes
+(defvar splash-phrase-source-folder
+  (expand-file-name "assets/splash-phrases" doom-user-dir)
+  "A folder of text files with a fun phrase on each line.")
+
+
+(defvar splash-phrase-sources
+  (let* ((files (directory-files splash-phrase-source-folder nil "\\.txt\\'"))
+         (sets (delete-dups (mapcar
+                             (lambda (file)
+                               (replace-regexp-in-string "\\(?:-[0-9]+-\\w+\\)?\\.txt" "" file))
+                             files))))
+    (mapcar (lambda (sset)
+              (cons sset
+                    (delq nil (mapcar
+                               (lambda (file)
+                                 (when (string-match-p (regexp-quote sset) file)
+                                   file))
+                               files))))
+            sets))
+  "A list of cons giving the phrase set name, and a list of files which contain phrase components.")
+
+(defvar splash-phrase-set
+  (nth (random (length splash-phrase-sources)) (mapcar #'car splash-phrase-sources))
+  "The default phrase set. See `splash-phrase-sources'.")
+
+
+(defun splash-phrase-set-random-set ()
+  "Set a new random splash phrase set."
+  (interactive)
+  (setq splash-phrase-set
+        (nth (random (1- (length splash-phrase-sources)))
+             (cl-set-difference (mapcar #'car splash-phrase-sources) (list splash-phrase-set))))
+  (+doom-dashboard-reload t))
+
+(defun splash-phrase-select-set ()
+  "Select a specific splash phrase set."
+  (interactive)
+  (setq splash-phrase-set (completing-read "Phrase set: " (mapcar #'car splash-phrase-sources)))
+  (+doom-dashboard-reload t))
+
+(defvar splash-phrase--cached-lines nil)
+
+(defun splash-phrase-get-from-file (file)
+  "Fetch a random line from FILE."
+  (let ((lines (or (cdr (assoc file splash-phrase--cached-lines))
+                   (cdar (push (cons file
+                                     (with-temp-buffer
+                                       (insert-file-contents (expand-file-name file splash-phrase-source-folder))
+                                       (split-string (string-trim (buffer-string)) "\n")))
+                               splash-phrase--cached-lines)))))
+    (nth (random (length lines)) lines)))
+
+(defun splash-phrase (&optional set)
+  "Construct a splash phrase from SET. See `splash-phrase-sources'."
+  (mapconcat
+   #'splash-phrase-get-from-file
+   (cdr (assoc (or set splash-phrase-set) splash-phrase-sources))
+   " "))
+
+
+(defun splash-phrase-dashboard-formatted ()
+  "Get a splash phrase, flow it over multiple lines as needed, and fontify it."
+  (mapconcat
+   (lambda (line)
+     (+doom-dashboard--center
+      +doom-dashboard--width
+      (with-temp-buffer
+        (insert-text-button
+         line
+         'action
+         (lambda (_) (+doom-dashboard-reload t))
+         'face '(:inherit doom-dashboard-menu-title :slant italic)
+         'mouse-face 'doom-dashboard-menu-title
+         'help-echo "Random phrase"
+         'follow-link t)
+        (buffer-string))))
+   (split-string
+    (with-temp-buffer
+      (insert (splash-phrase))
+      (setq fill-column (min 70 (/ (* 2 (window-width)) 3)))
+      (fill-region (point-min) (point-max))
+      (buffer-string))
+    "\n"
+    )
+   "\n"
+   ))
+
+(defun splash-phrase-dashboard-insert ()
+  "Insert the splash phrase surrounded by newlines."
+  (insert "\n" (splash-phrase-dashboard-formatted) "\n"))
+
+(defun +doom-dashboard-flower ()
+  "Flower"
+  (insert
+   "\n"
+   (+doom-dashboard--center
+    (- +doom-dashboard--width 2)
+    (with-temp-buffer
+      (insert-text-button (propertize "🌸" 'face '(:height 200))
+                          'action (lambda (_) (+doom-dashboard-reload t)))
+      (buffer-string)))))
+#+end_src
+
+#+RESULTS:
+: +doom-dashboard-flower
+
+*** Adjust doom-dashboard functions
+#+begin_src emacs-lisp :tangle yes
+(setq +doom-dashboard-functions
+      (list #'doom-dashboard-widget-banner
+            #'doom-dashboard-widget-loaded
+            #'splash-phrase-dashboard-insert
+            #'+doom-dashboard-flower
+            ))
+
+#+end_src
+
+#+RESULTS:
+| doom-dashboard-widget-banner | doom-dashboard-widget-loaded | splash-phrase-dashboard-insert |
 
 
 
@@ -450,12 +574,9 @@
    (markdown-mode . olivetti-mode)
    (org-agenda-mode . olivetti-mode))
   :config
-  (setq olivetti-body-width 120
+  (setq olivetti-body-width 122
         mode-line-right-align-edge 'right-margin))
 #+end_src
-
-#+RESULTS:
-| +org-habit-resize-graph-h | olivetti-mode |
 
 *** Use mixed-pitch in modes with olivetti :ui:
 #+begin_src emacs-lisp :tangle yes
