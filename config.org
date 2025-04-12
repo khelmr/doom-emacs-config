@@ -957,6 +957,38 @@ Combine alphapapa's =unpackaged/org-return=dwim= with doom's =+org/dwim= integra
   (eat-mode . goto-address-mode))
 #+end_src
 * Checkers
+** COMMENT Jinx
+#+begin_src emacs-lisp :tangle packages.el
+(package! jinx)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+;; FIXME Jinx will not compile for some reason.
+(use-package! jinx
+  :hook
+  (doom-init-ui . global-jinx-mode)
+  :config
+  ;; Use my custom dictionary
+  (setq jinx-languages "en_US")
+  ;; Extra face(s) to ignore
+  (push 'org-inline-src-block
+        (alist-get 'org-mode jinx-exclude-faces))
+  ;; Take over the relevant bindings.
+  (after! ispell
+    (global-set-key [remap ispell-word] #'jinx-correct))
+  ;; I prefer for `point' to end up at the start of the word,
+  ;; not just after the end.
+  (advice-add 'jinx-next :after (lambda (_) (left-word)))
+  (after! embark
+    ;; allow spell correction via embark https://github.com/minad/jinx/discussions/213#discussioncomment-11006725
+    (embark-define-overlay-target jinx category (eq %p 'jinx-overlay))
+    (add-to-list 'embark-target-finders 'embark-target-jinx-at-point)
+    (add-to-list 'embark-keymap-alist '(jinx jinx-repeat-map embark-general-map))
+    (add-to-list 'embark-repeat-actions #'jinx-next)
+    (add-to-list 'embark-repeat-actions #'jinx-previous)
+    (add-to-list 'embark-target-injection-hooks (list #'jinx-correct #'embark--ignore-target)))
+  )
+#+end_src
 * Tools
 ** Biblio
 ** Magit
