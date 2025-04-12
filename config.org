@@ -1271,8 +1271,101 @@ Basic gtd agenda (taken from https://github.com/rougier/emacs-gtd)
 ***** Default
 #+begin_src emacs-lisp :tangle yes
 #+end_src
+**** Keywords for todo
+Largely identical to doom's default but I want to replace KILL with CNCL
+#+begin_src emacs-lisp :tangle yes
+(after! org
+  (setq org-todo-keywords '((sequence
+           "TODO(t)"  ; A task that needs doing & is ready to do
+           "PROJ(p)"  ; A project, which usually contains other tasks
+           "LOOP(r)"  ; A recurring task
+           "STRT(s)"  ; A task that is in progress
+           "WAIT(w)"  ; Something external is holding up this task
+           "HOLD(h)"  ; This task is paused/on hold because of me
+           "IDEA(i)"  ; An unconfirmed and unapproved task or notion
+           "|"
+           "DONE(d)"  ; Task successfully completed
+           "KILL(k)") ; Task was cancelled, aborted, or is no longer applicable
+          (sequence
+           "[ ](T)"   ; A task that needs doing
+           "[-](S)"   ; Task is in progress
+           "[?](W)"   ; Task is being held up or paused
+           "|"
+           "[X](D)")  ; Task was completed
+          (sequence
+           "|"
+           "OKAY(o)"
+           "YES(y)"
+           "NO(n)"))))
+#+end_src
+**** Tags
+:PROPERTIES:
+:CREATED:  [2025-04-12 Sat 14:28]
+:END:
+#+begin_src emacs-lisp :tangle yes :noweb yes
+(after! org
+  (setq org-tag-alist '(
+                        <<gtd-tags>>
+                        <<location-tags>>
+                        <<action-tags>>
+                        )))
+#+end_src
+***** GTD tags
+:PROPERTIES:
+:CREATED:  [2025-04-12 Sat 14:30]
+:header-args: :noweb-ref gtd-tags
+:END:
+#+begin_src emacs-lisp :tangle no
+(:startgrouptag)
+("GTD")
+(:grouptags)
+("calendar")
+("inbox")
+(:endgrouptag)
 
+;; calendar subtags
+(:startgrouptag)
+("meeting")
+("event")
+("appointment")
+(:endgrouptag)
 
+(:endgrouptag)
+#+end_src
+
+***** Location tags
+:PROPERTIES:
+:CREATED:  [2025-04-12 Sat 14:31]
+:header-args: :noweb-ref location-tags
+:END:
+#+begin_src emacs-lisp :tangle no
+(:startgroup . nil)
+("@school" . ?s)
+("@home" . ?h)
+(:endgroup . nil)
+#+end_src
+***** COMMENT Action tags
+:PROPERTIES:
+:CREATED:  [2025-04-12 Sat 14:35]
+:header-args: :noweb-ref action-tags
+:END:
+#+begin_src emacs-lisp :tangle no
+(:startgrouptag)
+("Action")
+(:grouptags)
+("communicate")
+(:endgrouptag)
+
+;; communicate subtags
+(:startgrouptag)
+("communicate")
+(:grouptags)
+("email")
+("text")
+(:endgrouptag)
+
+(:endgrouptag)
+#+end_src
 *** Capture
 **** Doct
 Use doct for improved org-capture template creation.
