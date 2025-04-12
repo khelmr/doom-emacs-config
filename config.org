@@ -1007,6 +1007,7 @@ For some reason the emacs bindings for agend are not included under the =doom-le
         "C-c C-c" #'org-gtd-organize))
 #+end_src
 
+
 Basic gtd agenda (taken from https://github.com/rougier/emacs-gtd)
 #+begin_src emacs-lisp :tangle yes
 (after! org
@@ -1140,17 +1141,20 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   (denote-sort-keywords t)
   :bind
   (("C-c n d n" . denote-open-or-create)
+   ("C-c n d f" . denote-open-or-create)
    ("C-c n d c" . denote-region)
    ("C-c n d N" . denote-type)
    ("C-c n d d" . denote-date)
    ("C-c n d z" . denote-signature)
-   ("C-c n d s" . denote-subdirectory)
+   ;; ("C-c n d s" . denote-subdirectory)
    ("C-c n d t" . denote-template)
    ("C-c n d i" . denote-link-or-create)
+   ("C-c n d l" . denote-link-or-create)
    ("C-c n d I" . denote-add-links)
    ("C-c n d b" . denote-backlinks)
    ("C-c n d r" . denote-rename-file)
-   ("C-c n d R" . denote-rename-file-using-front-matter))
+   ("C-c n d R" . denote-rename-file-using-front-matter)
+   ("C-c n d g" . denote-grep))
   :config
   ;; hack
   ;; (setq denote-use-directory denote-directory)
@@ -1165,14 +1169,88 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
                    :jump-to-captured t)))
   (denote-rename-buffer-mode 1))
 #+end_src
+
+
 ***** Consult Denote
 #+begin_src emacs-lisp :tangle packages.el
 (package! consult-denote)
 #+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! consult-denote
+  :after (consult denote)
+  :bind
+  ([remap denote-grep] . consult-denote-grep)
+  :init
+  (consult-denote-mode))
+#+end_src
+
 ***** Denote Org
 #+begin_src emacs-lisp :tangle packages.el
 (package! denote-org)
 #+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! denote-org
+  :after (denote org))
+#+end_src
+***** Denote Explorer
+#+begin_src emacs-lisp :tangle packages.el
+(package! denote-explore)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! denote-explore
+  :after denote
+  :bind
+  (;; Statistics
+   ("C-c n d s n" . denote-explore-count-notes)
+   ("C-c n d s k" . denote-explore-count-keywords)
+   ("C-c n d s e" . denote-explore-barchart-filetypes)
+   ("C-c n d s w" . denote-explore-barchart-keywords)
+   ("C-c n d s t" . denote-explore-barchart-timeline)
+   ;; Random walks
+   ("C-c n d w n" . denote-explore-random-note)
+   ("C-c n d w r" . denote-explore-random-regex)
+   ("C-c n d w l" . denote-explore-random-link)
+   ("C-c n d w k" . denote-explore-random-keyword)
+   ;; Janitor
+   ("C-c n d j d" . denote-explore-duplicate-notes)
+   ("C-c n d j D" . denote-explore-duplicate-notes-dired)
+   ("C-c n d j l" . denote-explore-missing-links)
+   ("C-c n d j z" . denote-explore-zero-keywords)
+   ("C-c n d j s" . denote-explore-single-keywords)
+   ("C-c n d j r" . denote-explore-rename-keywords)
+   ("C-c n d j y" . denote-explore-sync-metadata)
+   ("C-c n d j i" . denote-explore-isolated-files)
+   ;; Visualize
+   ("C-c n d v n" . denote-explore-network)
+   ("C-c n d v r" . denote-explore-network-regenerate)
+   ("C-c n d v d" . denote-explore-barchart-degree)
+   ("C-c n d v b" . denote-explore-barchart-backlinks)))
+#+end_src
+***** Denote Menu
+#+begin_src emacs-lisp :tangle packages.el
+(package! denote-menu)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! denote-menu
+  :after denote
+  :bind
+  (("C-c n d m" . list-denotes)
+   :map denote-menu-mode-map
+   ("c" . #'denote-menu-clear-filters)
+   ("f" . #'denote-menu-filter)
+   ("k" . #'denote-menu-filter-by-keyword)
+   ("o" . #'denote-menu-filter-out-keyword)
+   ("e" . #'denote-menu-export-to-dired))
+  )
+#+end_src
+
+#+RESULTS:
+: denote-menu-export-to-dired
+
 *** Org Noter
 **** Fix undeletable pdf buffer after ending =org-noter-session=
 #+begin_src emacs-lisp :tangle yes
