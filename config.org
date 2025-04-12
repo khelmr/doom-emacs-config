@@ -448,8 +448,15 @@
   :hook
   ((org-mode . olivetti-mode)
    (markdown-mode . olivetti-mode)
-   (org-agenda-mode . olivetti-mode)))
+   (org-agenda-mode . olivetti-mode))
+  :config
+  (setq olivetti-body-width 120
+        mode-line-right-align-edge 'right-margin))
 #+end_src
+
+#+RESULTS:
+| +org-habit-resize-graph-h | olivetti-mode |
+
 *** Use mixed-pitch in modes with olivetti :ui:
 #+begin_src emacs-lisp :tangle yes
 (after! mixed-pitch-mode
