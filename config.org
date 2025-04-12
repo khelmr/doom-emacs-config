@@ -997,6 +997,15 @@ Combine alphapapa's =unpackaged/org-return=dwim= with doom's =+org/dwim= integra
 (after! magit
   (setq magit-format-file-function #'magit-format-file-nerd-icons))
 #+end_src
+*** Magit todos
+#+begin_src emacs-lisp :tangle packages.el
+(package! magit-todos)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package magit-todos
+  :after magit)
+#+end_src
 ** Lookup
 *** Pubmed Lookup Provider
 #+begin_src emacs-lisp :tangle yes
