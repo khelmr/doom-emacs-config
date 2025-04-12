@@ -937,6 +937,10 @@ Combine alphapapa's =unpackaged/org-return=dwim= with doom's =+org/dwim= integra
   (map! :map doom-leader-open-map
       "u" #'vundo))
 #+end_src
+*** Raise Undo limit
+#+begin_src emacs-lisp :tangle yes
+(setq undo-limit 80000000)
+#+end_src
 
 * Term
 ** Eat
