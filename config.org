@@ -370,7 +370,6 @@
 (add-hook! 'doom-init-ui-hook :append (+doom-dashboard-setup-modified-keymap))
 #+end_src
 
-#+RESULTS:
 *** Leader keybinding to dashboard :keybinding:
 #+begin_src emacs-lisp :tangle yes
 (map! :map doom-leader-open-map
@@ -487,8 +486,6 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
 (add-hook! '+doom-dashboard-functions :append #'+doom-dashboard-flower)
 #+end_src
 
-#+RESULTS:
-: +doom-dashboard-flower
 
 *** Adjust doom-dashboard functions
 #+begin_src emacs-lisp :tangle yes
@@ -755,7 +752,6 @@ Add some keys from doom evil mode back into meow's leader keymap
    (cons "w" window-prefix-map)))
 #+end_src
 
-#+RESULTS:
 
 *** Automatic =meow-insert= hooks
 Automatically switch to =meow-insert= mode for convenience.
@@ -1259,8 +1255,6 @@ appropriate.  In tables, insert a new row or end the table."
         org-agenda-start-day "+0d"))
 #+end_src
 
-#+RESULTS:
-: +0d
 
 **** Leader key bindings
 For some reason the emacs bindings for agend are not included under the =doom-leader-open-keymap=. Adding them back in.
@@ -1345,8 +1339,6 @@ For some reason the emacs bindings for agend are not included under the =doom-le
         )))
 #+end_src
 
-#+RESULTS:
-: t
 
 **** Agendas
 #+begin_src emacs-lisp :tangle yes :noweb yes
@@ -1599,7 +1591,6 @@ Use doct for improved org-capture template creation.
 )
 #+end_src
 
-#+RESULTS:
 
 #+begin_src emacs-lisp :tangle no
 (("i" "Inbox" entry (file ) "* %?\n%U\n\n  %i" :kill-buffer t)
@@ -1791,8 +1782,6 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   )
 #+end_src
 
-#+RESULTS:
-: denote-menu-export-to-dired
 
 *** Org Noter
 **** Fix undeletable pdf buffer after ending =org-noter-session=
