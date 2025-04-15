@@ -1222,10 +1222,15 @@ appropriate.  In tables, insert a new row or end the table."
 (after! org-agenda
   (setq org-agenda-skip-scheduled-if-done t
         org-agenda-skip-deadline-if-done t
+        org-agenda-skip-scheduled-if-done t
+        org-agenda-skip-scheduled-if-deadline-is-shown t
+        org-agenda-skip-timestamp-if-deadline-is-shown t
+        org-agenda-compact-blocks t
         org-agenda-include-deadlines t
         org-agenda-follow-indirect t
         org-agenda-block-separator nil))
 #+end_src
+
 **** Org-expiry
 #+begin_src emacs-lisp :tangle no
 (package! org-expiry)
@@ -1242,14 +1247,21 @@ appropriate.  In tables, insert a new row or end the table."
 **** COMMENT Time Grid
 #+begin_src emacs-lisp :tangle yes
 (after! org
-  (setq org-agenda-time-grid '((daily) () "" "")))
+  (setq org-agenda-time-grid '((daily) () "" "")
+        org-agenda-use-time-grid nil))
 #+end_src
 
 **** Start week on Sunday
 #+begin_src emacs-lisp :tangle yes
 (after! org
-  (setq org-agenda-start-on-weekday 0))
+  (setq org-agenda-start-on-weekday 0
+        org-agenda-span 1
+        org-agenda-start-day "+0d"))
 #+end_src
+
+#+RESULTS:
+: +0d
+
 **** Leader key bindings
 For some reason the emacs bindings for agend are not included under the =doom-leader-open-keymap=. Adding them back in.
 #+begin_src emacs-lisp :tangle yes
@@ -1286,12 +1298,70 @@ For some reason the emacs bindings for agend are not included under the =doom-le
         "C-c C-c" #'org-gtd-organize))
 #+end_src
 
-**** GTD
-Basic gtd agenda (taken from https://github.com/rougier/emacs-gtd)
+**** Org Super Agenda
+#+begin_src emacs-lisp :tangle packages.el
+(package! org-super-agenda)
+#+end_src
+
 #+begin_src emacs-lisp :tangle yes
-(after! org-agenda
-  (setq org-agenda-custom-commands
-      '(("g" "Get Things Done (GTD)"
+(use-package! org-super-agenda
+  :after org
+  :config
+  (org-super-agenda-mode 1)
+  (setq org-super-agenda-groups '(;; Each group has an implicit boolean OR operator between its selectors.
+
+         ;; This is the first filter, anything found here
+         ;; will be placed in this group
+         ;; even if it matches following groups
+         (:name " Overdue" ; Name
+                :scheduled past ; Filter criteria
+                :deadline past
+                :order 2 ; Order it should appear in agenda view
+                :face 'error) ; Font face used for text
+
+         ;; This is the second filter, anything not found
+         ;; from the first filter, but found here,
+         ;; will be placed in this group
+         ;; even if it matches following groups
+         (:name " Personal" ; Name
+                :file-path "personal" ; Filter criteria
+                :order 3 ; Order it should appear in the agenda view
+                ) ; Font faced used for text
+
+         ;; Third filter..
+         (:name " School"  ; Name
+                :file-path "school" ; Filter criteria
+                :order 3 ; Order it should appear in the agenda view
+                ) ; Font face used for text
+
+         ;; Fourth filter..
+         (:name " Today "  ; Optionally specify section name
+                :time-grid t ; Use the time grid
+                :date today ; Filter criteria
+                :scheduled today ; Another filter criteria
+                :order 1 ; Order it should appear in the agenda view
+                ) ; Font face used for text
+
+        )))
+#+end_src
+
+#+RESULTS:
+: t
+
+**** Agendas
+#+begin_src emacs-lisp :tangle yes :noweb yes
+(setq org-agenda-custom-commands
+      '(
+        <<agenda-gtd>>
+        ))
+#+end_src
+***** Default
+#+begin_src emacs-lisp :tangle no :noweb-ref agenda-default
+#+end_src
+***** GTD
+Basic gtd agenda (taken from https://github.com/rougier/emacs-gtd)
+#+begin_src emacs-lisp :tangle no :noweb-ref agenda-gtd
+("g" "Get Things Done (GTD)"
          ((todo "SCHEDULED<=\"<today\""
                 ((org-agenda-overriding-header "\nOVERDUE TASKS\n")))
           (tags "inbox"
@@ -1340,24 +1410,9 @@ Basic gtd agenda (taken from https://github.com/rougier/emacs-gtd)
                    ;;  '(org-agenda-skip-entry-if 'notregexp "\\* NEXT"))
                    (org-agenda-overriding-header "\nDeadlines")))
 
-          )))))
-
-
+          ))
 #+end_src
 
-**** Org Super Agenda
-#+begin_src emacs-lisp :tangle packages.el
-(package! org-super-agenda)
-#+end_src
-
-#+begin_src emacs-lisp :tangle yes
-(use-package! org-super-agenda
-  :after org)
-#+end_src
-**** Agendas
-***** Default
-#+begin_src emacs-lisp :tangle yes
-#+end_src
 **** Keywords for todo
 Largely identical to doom's default but I want to replace KILL with CNCL
 #+begin_src emacs-lisp :tangle yes
