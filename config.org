@@ -533,9 +533,28 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
 #+begin_src emacs-lisp :tangle packages.el
 (package! modus-themes)
 #+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! modus-themes
+  :defer t)
+#+end_src
 *** Catppuccin
 #+begin_src emacs-lisp :tangle packages.el
 (package! catppuccin-theme)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! catppuccin-theme
+  :defer t)
+#+end_src
+*** Ef-themes
+#+begin_src emacs-lisp :tangle packages.el
+(package! ef-themes)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! ef-themes
+  :defer t)
 #+end_src
 ** Spacious Padding
 #+begin_src emacs-lisp :tangle packages.el
