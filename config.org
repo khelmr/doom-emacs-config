@@ -371,6 +371,13 @@
 #+end_src
 
 #+RESULTS:
+*** Leader keybinding to dashboard :keybinding:
+#+begin_src emacs-lisp :tangle yes
+(map! :map doom-leader-open-map
+      "d" #'+doom-dashboard/open)
+#+end_src
+
+
 *** Add splash phrases
 Taken from https://tecosaur.github.io/emacs-config/config.html
 #+begin_src emacs-lisp :tangle yes
