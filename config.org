@@ -762,7 +762,6 @@ Add some keys from doom evil mode back into meow's leader keymap
    (cons "w" window-prefix-map)))
 #+end_src
 
-
 *** Automatic =meow-insert= hooks
 Automatically switch to =meow-insert= mode for convenience.
 #+begin_src emacs-lisp :tangle yes
@@ -835,6 +834,12 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
 #+begin_src emacs-lisp :tangle yes
 (after! vertico-multiform
     (add-to-list 'vertico-multiform-commands '(meow-visit (vertico-preselect . prompt))))
+#+end_src
+*** Mode states
+Set meow's initial mode for various major modes
+#+begin_src emacs-lisp :tangle yes
+(after! meow
+  (add-to-list 'meow-mode-state-list '((eat-mode . insert))))
 #+end_src
 
 ** COMMENT Dogears
