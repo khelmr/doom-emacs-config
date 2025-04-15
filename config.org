@@ -729,6 +729,7 @@ Set some defaults
  '("g" . "M-g")
  '("M" . join-line)
  '("s" . avy-goto-char-2)
+ '("S" . embrace-commander)
  '("u" . undo-fu-only-undo)
  '("U" . undo-fu-only-redo)
  '("/" . meow-visit)
@@ -818,8 +819,8 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
   (interactive)
       (if (eq (meow--current-state) 'normal)
           (+org/dwim-at-point ARG)
-          ;; (unpackaged/org-return-dwim ARG)
-        (+org/return)
+          (unpackaged/org-return-dwim ARG)
+        ;; (+org/return)
         ))
 #+end_src
 
@@ -840,6 +841,30 @@ Set meow's initial mode for various major modes
 #+begin_src emacs-lisp :tangle yes
 (after! meow
   (add-to-list 'meow-mode-state-list '((eat-mode . insert))))
+** Embrace
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! embrace)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! embrace
+  :commands embrace-commander
+  :hook (LaTex-mode . embrace-LaTex-mode-hook)
+  ;; :hook (org-mode . embrace-org-mode-hook)
+  :hook (ruby-mode . embrace-ruby-mode-hook)
+  :hook (emacs-lisp-mode . embrace-emacs-lisp-mode-hook))
+#+end_src
+** COMMENT Surround
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! surround)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! surround
+  :defer t)
+>>>>>>> 6f41a073a7682a95f261f310a02f48c778416ccb
 #+end_src
 
 ** COMMENT Dogears
@@ -1020,6 +1045,22 @@ Set meow's initial mode for various major modes
                                                                                "Execute `phi-search-abort' when pressing `<escape>'"
                                                                                (when phi-search--active (phi-search-abort)))))))
 #+end_src
+** Smart-parens
+*** Use strict mode
+#+begin_src emacs-lisp :tangle yes
+(after! smartparens
+  (smartparens-global-strict-mode))
+#+end_src
+** Aggressive Indent
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! aggressive-indent)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! aggressive-indent
+  :hook (doom-first-file . global-aggressive-indent-mode))
+#+end_src
 
 * Emacs
 ** Undo
@@ -1164,7 +1205,7 @@ appropriate.  In tables, insert a new row or end the table."
   ;; Inspired by John Kitchin: http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/
   (interactive "P")
   (if default
-      (org-return)
+      (org-return electric-indent-mode)
     (cond
      ;; Act depending on context around point.
 
@@ -1216,8 +1257,8 @@ appropriate.  In tables, insert a new row or end the table."
           ;; Empty item: Close the list.
           ;; TODO: Do this with org functions rather than operating on the text. Can't seem to find the right function.
           (delete-region (line-beginning-position) (line-end-position))
-          (org-indent-line)
-          ;; (insert "\n") ;; stay at original line
+          ;; (org-indent-line)
+          (insert "\n") ;; stay at original line
           )))
 
      ((when (fboundp 'org-inlinetask-in-task-p)
@@ -1242,8 +1283,10 @@ appropriate.  In tables, insert a new row or end the table."
              (org-return))))
      (t
       ;; All other cases: call `org-return'.
-      (org-return)))))
+      (org-return electric-indent-mode)))))
 #+end_src
+#+RESULTS:
+: unpackaged/org-return-dwim
 
 *** Org directory
 #+begin_src emacs-lisp :tangle yes
