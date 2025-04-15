@@ -719,6 +719,7 @@ Set some defaults
  '("g" . "M-g")
  '("M" . join-line)
  '("s" . avy-goto-char-2)
+ '("S" . embrace-commander)
  '("u" . undo-fu-only-undo)
  '("U" . undo-fu-only-redo)
  '("/" . meow-visit)
@@ -825,6 +826,30 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
 #+begin_src emacs-lisp :tangle yes
 (after! vertico-multiform
     (add-to-list 'vertico-multiform-commands '(meow-visit (vertico-preselect . prompt))))
+#+end_src
+** Embrace
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! embrace)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! embrace
+  :commands embrace-commander
+  :hook (LaTex-mode . embrace-LaTex-mode-hook)
+  :hook (org-mode . embrace-org-mode-hook)
+  :hook (ruby-mode . embrace-ruby-mode-hook)
+  :hook (emacs-lisp-mode . embrace-emacs-lisp-mode-hook))
+#+end_src
+** Surround
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! surround)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! surround
+  :defer t)
 #+end_src
 
 ** COMMENT Dogears
@@ -1201,8 +1226,8 @@ appropriate.  In tables, insert a new row or end the table."
           ;; Empty item: Close the list.
           ;; TODO: Do this with org functions rather than operating on the text. Can't seem to find the right function.
           (delete-region (line-beginning-position) (line-end-position))
-          (org-indent-line)
-          ;; (insert "\n") ;; stay at original line
+          ;; (org-indent-line)
+          (insert "\n") ;; stay at original line
           )))
 
      ((when (fboundp 'org-inlinetask-in-task-p)
@@ -1229,6 +1254,9 @@ appropriate.  In tables, insert a new row or end the table."
       ;; All other cases: call `org-return'.
       (org-return)))))
 #+end_src
+
+#+RESULTS:
+: unpackaged/org-return-dwim
 
 *** Org directory
 #+begin_src emacs-lisp :tangle yes
