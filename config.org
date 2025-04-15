@@ -1693,6 +1693,13 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   (add-hook 'org-pomodoro-break-finished-hook 'my/org-pomodoro-restart))
 #+end_src
 *** Appearance
+**** COMMENT Org ellipsis
+#+begin_src emacs-lisp :tangle yes
+(after! org
+  (setq org-ellipsis " […]"))
+#+end_src
+
+
 *** Notes
 **** Denote
 
