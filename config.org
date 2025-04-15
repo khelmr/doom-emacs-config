@@ -1174,7 +1174,7 @@ appropriate.  In tables, insert a new row or end the table."
   ;; Inspired by John Kitchin: http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/
   (interactive "P")
   (if default
-      (org-return)
+      (org-return electric-indent-mode)
     (cond
      ;; Act depending on context around point.
 
@@ -1252,9 +1252,8 @@ appropriate.  In tables, insert a new row or end the table."
              (org-return))))
      (t
       ;; All other cases: call `org-return'.
-      (org-return)))))
+      (org-return electric-indent-mode)))))
 #+end_src
-
 #+RESULTS:
 : unpackaged/org-return-dwim
 
