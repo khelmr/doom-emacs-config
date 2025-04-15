@@ -807,18 +807,17 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
 #+end_src
 *** Shims
 **** Org
-***** COMMENT Better =org-return=
-Combine alphapapa's =unpackaged/org-return=dwim= with doom's =+org/dwim= integrated with meow.
+***** Better =org-return=
 #+begin_src emacs-lisp :tangle yes
-(defun +my/org-return-dwim (&optionl ARG)
-  (interactive "P")
-      (if (meow--current-state 'normal)
-          (unpackaged/org-return-dwim default)
-        (+org/dwim-at-point ARG)))
+(defun +my/org-return-dwim (&optional ARG)
+  (interactive)
+      (if (eq (meow--current-state) 'normal)
+          (+org/dwim-at-point ARG)
+          ;; (unpackaged/org-return-dwim ARG)
+        (+org/return)
+        ))
 #+end_src
 
-#+RESULTS:
-: +my/org-return-dwim
 
 #+begin_src emacs-lisp :tangle yes
 (after! (:and meow org)
