@@ -215,10 +215,6 @@
 ;; sync' after modifying this file!
 
 
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets. It is optional.
-(setq user-full-name "Kevin Rao"
-      user-mail-address "kevinrao2000@gmail.com")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -1664,7 +1660,14 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 
 * Email
 * App
-* Config
+* Personal
+** Identify
+#+begin_src emacs-lisp :tangle yes
+;; Some functionality uses this to identify you, e.g. GPG configuration, email
+;; clients, file templates and snippets. It is optional.
+(setq user-full-name "Kevin Rao"
+      user-mail-address "kevinrao2000@gmail.com")
+#+end_src
 ** Poll Everywhere
 #+begin_src emacs-lisp :tangle yes
 (defun +poll-everywhere (instructor)
