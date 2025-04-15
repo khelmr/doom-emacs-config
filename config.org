@@ -821,6 +821,11 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
         "RET" #'+my/org-return-dwim
         [return] #'+my/org-return-dwim))
 #+end_src
+*** Preselect visit
+#+begin_src emacs-lisp :tangle yes
+(after! vertico-multiform
+    (add-to-list 'vertico-multiform-commands '(meow-visit (vertico-preselect . prompt))))
+#+end_src
 
 ** COMMENT Dogears
 #+begin_src emacs-lisp :tangle packages.el
@@ -1695,8 +1700,12 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
                    :immediate-finish nil
                    :kill-buffer t
                    :jump-to-captured t)))
+  (setq denote-history-completion-in-prompts '(denote-signature-prompt denote-files-matching-regexp-prompt denote-query-link-prompt))
+  (after! vertico-multiform
+    (add-to-list 'vertico-multiform-commands '(denote-open-or-create (vertico-preselect . prompt))))
   (denote-rename-buffer-mode 1))
 #+end_src
+
 
 
 ***** Consult Denote
@@ -1789,7 +1798,9 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 ;; HACK Prevents strange behavior interacting betwee org-noter and persp-mode that prevents the new frame from being closed. Avoid this by just preventing a new frame from being made in the first place.
 (after! org-noter
   (setq org-noter-always-create-frame nil
-        org-noter-kill-frame-at-session-end nil))
+        org-noter-kill-frame-at-session-end nil)
+  (after! vertico-multiform
+    (add-to-list 'vertico-multiform-commands '(org-noter-insert-note (vertico-preselect . prompt)))))
 #+end_src
 ** Nix
 *** Use alejandra as formatter
