@@ -719,7 +719,7 @@ Set some defaults
  '("g" . "M-g")
  '("M" . join-line)
  '("s" . avy-goto-char-2)
- ;; '("S" . embrace-commander)
+ '("S" . embrace-commander)
  '("u" . undo-fu-only-undo)
  '("U" . undo-fu-only-redo)
  '("/" . meow-visit)
@@ -827,7 +827,7 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
 (after! vertico-multiform
     (add-to-list 'vertico-multiform-commands '(meow-visit (vertico-preselect . prompt))))
 #+end_src
-** COMMENT Embrace
+** Embrace
 
 #+begin_src emacs-lisp :tangle packages.el
 (package! embrace)
@@ -837,11 +837,11 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
 (use-package! embrace
   :commands embrace-commander
   :hook (LaTex-mode . embrace-LaTex-mode-hook)
-  :hook (org-mode . embrace-org-mode-hook)
+  ;; :hook (org-mode . embrace-org-mode-hook)
   :hook (ruby-mode . embrace-ruby-mode-hook)
   :hook (emacs-lisp-mode . embrace-emacs-lisp-mode-hook))
 #+end_src
-** Surround
+** COMMENT Surround
 
 #+begin_src emacs-lisp :tangle packages.el
 (package! surround)
