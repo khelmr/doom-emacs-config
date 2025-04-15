@@ -982,6 +982,29 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
         :desc "Switch to 9th workspace"   "9"   #'+workspace/switch-to-8
         :desc "Switch to final workspace" "0"   #'+workspace/switch-to-final)))
 #+end_src
+** COMMENT Phi Search
+#+begin_src emacs-lisp :tangle packages.el
+(package! phi-search)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! phi-search
+  :bind
+  (([remap isearch-forward] . #'phi-search)
+   ([remap isearch-forward-regexp] . #'phi-search)
+   ([remap isearch-backward] . #'phi-search-backward)
+   ([remap isearch-backward-regexp] . #'phi-search-backward)
+   :map phi-search-default-map
+   ("<escape>" . phi-search-abort))
+  :custom
+  (phi-search-case-sensitive 'guess)
+  :config
+  ;; HACK: phi-search quits in a weird state when pressing escape. This hook ensures that it properly aborts when exiting that way.
+  ;; Hook must be added when `phi-search' starts because `minibuffer-exit-hook' gets cleared after minibuffer exits.
+  (add-hook 'phi-search-init-hook (lambda () (add-hook 'minibuffer-exit-hook (defun +phi-search-quit-on-escape ()
+                                                                               "Execute `phi-search-abort' when pressing `<escape>'"
+                                                                               (when phi-search--active (phi-search-abort)))))))
+#+end_src
 
 * Emacs
 ** Undo
