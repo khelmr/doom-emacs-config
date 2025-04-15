@@ -1804,6 +1804,7 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 #+end_src
 ** Nix
 *** Use alejandra as formatter
+
 #+begin_src emacs-lisp :tangle yes
 (after! nix-mode
   (set-formatter! 'alejandra '("alejandra" "--quiet") :modes '(nix-mode)))
