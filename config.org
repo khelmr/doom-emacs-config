@@ -597,7 +597,8 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
   ((org-mode . olivetti-mode)
    (markdown-mode . olivetti-mode)
    (org-agenda-mode . olivetti-mode))
-  :config
+  :init
+  ;; need to set early
   (setq olivetti-body-width 122
         mode-line-right-align-edge 'right-margin))
 #+end_src
