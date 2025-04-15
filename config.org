@@ -826,6 +826,21 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
         [return] #'+my/org-return-dwim))
 #+end_src
 
+** COMMENT Dogears
+#+begin_src emacs-lisp :tangle packages.el
+(package! dogears)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! dogears
+  :hook (doom-first-buffer . dogears-mode)
+  :bind (;; ("M-g d" . dogears-go)
+         ("M-g M-d" . dogears-list)
+         ("M-g M-b" . dogears-back)
+         ("M-g M-f" . dogears-forward)
+         ))
+#+end_src
+
 ** Casual
 #+begin_src emacs-lisp :tangle packages.el
 (package! casual-suite)
