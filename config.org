@@ -608,6 +608,15 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
 (after! mixed-pitch-mode
   (add-hook! olivetti-mode #'mixed-pitch-mode))
 #+end_src
+** Info-Colors
+#+begin_src emacs-lisp :tangle packages.el
+(package! info-colors)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! info-colors
+  :hook (Info-selection . info-colors-fontify-node))
+#+end_src
 
 * Editor
 ** Line Numbers
