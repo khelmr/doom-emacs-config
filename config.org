@@ -614,6 +614,16 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
 (use-package! info-colors
   :hook (Info-selection . info-colors-fontify-node))
 #+end_src
+** HL-todo
+*** Consult-todo
+#+begin_src emacs-lisp :tangle packages.el
+(package! consult-todo)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! consult-todo
+  :after (consult hl-todo))
+#+end_src
 
 * Editor
 ** Line Numbers
