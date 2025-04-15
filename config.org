@@ -992,6 +992,7 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
       "u" #'vundo))
 #+end_src
 *** Raise Undo limit
+I keep losing undo history when garbage collection happens. Raise the undo limit to prevent this.
 #+begin_src emacs-lisp :tangle yes
 (setq undo-limit 80000000)
 #+end_src
@@ -1057,8 +1058,10 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
-(use-package magit-todos
-  :after magit)
+(use-package! magit-todos
+  :after magit
+  :config
+  (magit-todos-mode 1))
 #+end_src
 ** Lookup
 *** Pubmed Lookup Provider
