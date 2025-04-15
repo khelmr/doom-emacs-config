@@ -1030,6 +1030,22 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
                                                                                "Execute `phi-search-abort' when pressing `<escape>'"
                                                                                (when phi-search--active (phi-search-abort)))))))
 #+end_src
+** Smart-parens
+*** Use strict mode
+#+begin_src emacs-lisp :tangle yes
+(after! smartparens
+  (smartparens-global-strict-mode))
+#+end_src
+** Aggressive Indent
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! aggressive-indent)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! aggressive-indent
+  :hook (doom-first-file . global-aggressive-indent-mode))
+#+end_src
 
 * Emacs
 ** Undo
