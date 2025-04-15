@@ -1782,6 +1782,12 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
    ("k" . #'denote-menu-filter-by-keyword)
    ("o" . #'denote-menu-filter-out-keyword)
    ("e" . #'denote-menu-export-to-dired))
+  :config
+  ;; Prefer `ripgrep' and `fd' variants when available
+  (when (executable-find "fd")
+    (setopt consult-denote-find-command #'consult-fd))
+  (when (executable-find "rg")
+    (setopt consult-denote-grep-command #'consult-ripgrep))
   )
 #+end_src
 
