@@ -1508,6 +1508,15 @@ Largely identical to doom's default but I want to replace KILL with CNCL
 
 (:endgrouptag)
 #+end_src
+**** Org timeblock
+#+begin_src emacs-lisp :tangle packages.el
+(package! org-timeblock)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-timeblock
+  :after org)
+#+end_src
 *** Capture
 **** Doct
 Use doct for improved org-capture template creation.
