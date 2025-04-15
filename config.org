@@ -1447,15 +1447,15 @@ Largely identical to doom's default but I want to replace KILL with CNCL
 #+begin_src emacs-lisp :tangle yes :noweb yes
 (after! org
   (setq org-tag-alist '(
-                        <<gtd-tags>>
-                        <<location-tags>>
-                        <<action-tags>>
+                        <<tags-gtd>>
+                        <<tags-location>>
+                        <<tags-action>>
                         )))
 #+end_src
 ***** GTD tags
 :PROPERTIES:
 :CREATED:  [2025-04-12 Sat 14:30]
-:header-args: :noweb-ref gtd-tags
+:header-args: :noweb-ref tags-gtd
 :END:
 #+begin_src emacs-lisp :tangle no
 (:startgrouptag)
@@ -1478,7 +1478,7 @@ Largely identical to doom's default but I want to replace KILL with CNCL
 ***** Location tags
 :PROPERTIES:
 :CREATED:  [2025-04-12 Sat 14:31]
-:header-args: :noweb-ref location-tags
+:header-args: :noweb-ref tags-location
 :END:
 #+begin_src emacs-lisp :tangle no
 (:startgroup . nil)
@@ -1489,7 +1489,7 @@ Largely identical to doom's default but I want to replace KILL with CNCL
 ***** COMMENT Action tags
 :PROPERTIES:
 :CREATED:  [2025-04-12 Sat 14:35]
-:header-args: :noweb-ref action-tags
+:header-args: :noweb-ref tags-action
 :END:
 #+begin_src emacs-lisp :tangle no
 (:startgrouptag)
