@@ -809,8 +809,8 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
   (interactive)
       (if (eq (meow--current-state) 'normal)
           (+org/dwim-at-point ARG)
-          ;; (unpackaged/org-return-dwim ARG)
-        (+org/return)
+          (unpackaged/org-return-dwim ARG)
+        ;; (+org/return)
         ))
 #+end_src
 
