@@ -1779,7 +1779,7 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   :config
   ;; hack
   ;; (setq denote-use-directory denote-directory)
-  (after! 'org-capture
+  (after! org-capture
     (add-to-list 'org-capture-templates
                  '("n" "New note (with Denote)" plain
                    (file denote-last-path)
@@ -1790,10 +1790,10 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
                    :jump-to-captured t)))
   (setq denote-history-completion-in-prompts '(denote-signature-prompt denote-files-matching-regexp-prompt denote-query-link-prompt))
   (after! vertico-multiform
-    (add-to-list 'vertico-multiform-commands '(denote-open-or-create (vertico-preselect . prompt))))
+    (add-to-list 'vertico-multiform-commands '(denote-open-or-create (vertico-preselect . prompt)
+                                               denote (vertico-preselect . prompt))))
   (denote-rename-buffer-mode 1))
 #+end_src
-
 
 
 ***** Consult Denote
