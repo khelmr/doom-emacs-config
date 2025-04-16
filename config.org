@@ -1926,7 +1926,6 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   )
 #+end_src
 
-
 *** Org Noter
 **** Fix undeletable pdf buffer after ending =org-noter-session=
 #+begin_src emacs-lisp :tangle yes
