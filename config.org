@@ -841,6 +841,8 @@ Set meow's initial mode for various major modes
 #+begin_src emacs-lisp :tangle yes
 (after! meow
   (add-to-list 'meow-mode-state-list '((eat-mode . insert))))
+#+end_src
+
 ** Embrace
 
 #+begin_src emacs-lisp :tangle packages.el
@@ -1285,8 +1287,6 @@ appropriate.  In tables, insert a new row or end the table."
       ;; All other cases: call `org-return'.
       (org-return electric-indent-mode)))))
 #+end_src
-#+RESULTS:
-: unpackaged/org-return-dwim
 
 *** Org directory
 #+begin_src emacs-lisp :tangle yes
