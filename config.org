@@ -1338,8 +1338,9 @@ appropriate.  In tables, insert a new row or end the table."
 #+begin_src emacs-lisp :tangle yes
 (after! org
   (setq org-agenda-start-on-weekday 0
-        org-agenda-span 1
-        org-agenda-start-day "+0d"))
+        org-agenda-span 'week
+        ;; org-agenda-start-day "+0d"
+        ))
 #+end_src
 
 
