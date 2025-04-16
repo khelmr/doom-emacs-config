@@ -1074,6 +1074,49 @@ I keep losing undo history when garbage collection happens. Raise the undo limit
 #+begin_src emacs-lisp :tangle yes
 (setq undo-limit 80000000)
 #+end_src
+** Dired/Dirvish
+*** Dirvish keybindings
+
+Use doom's evil keybindings for dirvish
+#+begin_src emacs-lisp :tangle yes
+(after! dirvish
+  (map! :map dirvish-mode-map
+          "?"   #'dirvish-dispatch
+          "q"   #'dirvish-quit
+          "b"   #'dirvish-quick-access
+         "f"   #'dirvish-file-info-menu
+          "p"   #'dirvish-yank
+         "S"   #'dirvish-quicksort
+          "F"   #'dirvish-layout-toggle
+          "z"   #'dirvish-history-jump
+          "gh"  #'dirvish-subtree-up
+          "gl"  #'dirvish-subtree-toggle
+          "h"   #'dired-up-directory
+          "l"   #'dired-find-file
+         [left]  #'dired-up-directory
+         [right] #'dired-find-file
+          "[h"  #'dirvish-history-go-backward
+          "]h"  #'dirvish-history-go-forward
+          "[e"  #'dirvish-emerge-next-group
+          "]e"  #'dirvish-emerge-previous-group
+          "TAB" #'dirvish-subtree-toggle
+         "M-b" #'dirvish-history-go-backward
+         "M-f" #'dirvish-history-go-forward
+         "M-n" #'dirvish-narrow
+         "M-" #'dirvish-mark-menu
+         "M-s" #'dirvish-setup-menu
+         "M-e" #'dirvish-emerge-menu
+        (:prefix ("y" . "yank")
+          "l"   #'dirvish-copy-file-true-path
+          "n"   #'dirvish-copy-file-name
+          "p"   #'dirvish-copy-file-path
+          "r"   #'dirvish-copy-remote-path
+          "y"   #'dired-do-copy)
+        (:prefix ("s" . "symlinks")
+          "s"   #'dirvish-symlink
+          "S"   #'dirvish-relative-symlink
+          "h"   #'dirvish-hardlink)))
+#+end_src
 
 * Term
 ** Eat
