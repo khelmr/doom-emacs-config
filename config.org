@@ -1333,6 +1333,14 @@ appropriate.  In tables, insert a new row or end the table."
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/Org")
 #+end_src
+*** Id/Attach
+**** Set org attach directories
+
+#+begin_src emacs-lisp :tangle yes
+(after! org
+  (setq org-attach-id-dir (expand-file-name ".attach/" org-directory)))
+#+end_src
+
 *** Agenda
 **** Agenda Files
 #+begin_src emacs-lisp :tangle yes
