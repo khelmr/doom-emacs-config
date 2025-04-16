@@ -1049,11 +1049,6 @@ Set meow's initial mode for various major modes
                                                                                (when phi-search--active (phi-search-abort)))))))
 #+end_src
 ** Smart-parens
-*** Use strict mode
-#+begin_src emacs-lisp :tangle yes
-(after! smartparens
-  (smartparens-global-strict-mode))
-#+end_src
 ** Aggressive Indent
 
 #+begin_src emacs-lisp :tangle packages.el
@@ -1078,6 +1073,49 @@ Set meow's initial mode for various major modes
 I keep losing undo history when garbage collection happens. Raise the undo limit to prevent this.
 #+begin_src emacs-lisp :tangle yes
 (setq undo-limit 80000000)
+#+end_src
+** Dired/Dirvish
+*** Dirvish keybindings
+
+Use doom's evil keybindings for dirvish
+#+begin_src emacs-lisp :tangle yes
+(after! dirvish
+  (map! :map dirvish-mode-map
+          "?"   #'dirvish-dispatch
+          "q"   #'dirvish-quit
+          "b"   #'dirvish-quick-access
+         "f"   #'dirvish-file-info-menu
+          "p"   #'dirvish-yank
+         "S"   #'dirvish-quicksort
+          "F"   #'dirvish-layout-toggle
+          "z"   #'dirvish-history-jump
+          "gh"  #'dirvish-subtree-up
+          "gl"  #'dirvish-subtree-toggle
+          "h"   #'dired-up-directory
+          "l"   #'dired-find-file
+         [left]  #'dired-up-directory
+         [right] #'dired-find-file
+          "[h"  #'dirvish-history-go-backward
+          "]h"  #'dirvish-history-go-forward
+          "[e"  #'dirvish-emerge-next-group
+          "]e"  #'dirvish-emerge-previous-group
+          "TAB" #'dirvish-subtree-toggle
+         "M-b" #'dirvish-history-go-backward
+         "M-f" #'dirvish-history-go-forward
+         "M-n" #'dirvish-narrow
+         "M-" #'dirvish-mark-menu
+         "M-s" #'dirvish-setup-menu
+         "M-e" #'dirvish-emerge-menu
+        (:prefix ("y" . "yank")
+          "l"   #'dirvish-copy-file-true-path
+          "n"   #'dirvish-copy-file-name
+          "p"   #'dirvish-copy-file-path
+          "r"   #'dirvish-copy-remote-path
+          "y"   #'dired-do-copy)
+        (:prefix ("s" . "symlinks")
+          "s"   #'dirvish-symlink
+          "S"   #'dirvish-relative-symlink
+          "h"   #'dirvish-hardlink)))
 #+end_src
 
 * Term
@@ -1295,6 +1333,14 @@ appropriate.  In tables, insert a new row or end the table."
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/Org")
 #+end_src
+*** Id/Attach
+**** Set org attach directories
+
+#+begin_src emacs-lisp :tangle yes
+(after! org
+  (setq org-attach-id-dir (expand-file-name ".attach/" org-directory)))
+#+end_src
+
 *** Agenda
 **** Agenda Files
 #+begin_src emacs-lisp :tangle yes
@@ -1744,7 +1790,6 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   (setq org-ellipsis " […]"))
 #+end_src
 
-
 *** Notes
 **** Denote
 
@@ -1792,8 +1837,9 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
                    :jump-to-captured t)))
   (setq denote-history-completion-in-prompts '(denote-signature-prompt denote-files-matching-regexp-prompt denote-query-link-prompt))
   (after! vertico-multiform
-    (add-to-list 'vertico-multiform-commands '(denote-open-or-create (vertico-preselect . prompt)
-                                               denote (vertico-preselect . prompt))))
+    ;; preselect the prompt when creating a new note
+    (add-to-list 'vertico-multiform-commands '(denote-open-or-create (vertico-preselect . prompt)))
+    (add-to-list 'vertico-multiform-commands '(denote (vertico-preselect . prompt))))
   (denote-rename-buffer-mode 1))
 #+end_src
 
@@ -1880,7 +1926,6 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
     (setopt consult-denote-grep-command #'consult-ripgrep))
   )
 #+end_src
-
 
 *** Org Noter
 **** Fix undeletable pdf buffer after ending =org-noter-session=
