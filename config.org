@@ -344,7 +344,7 @@
   (setq +doom-dashboard-mode-map (make-sparse-keymap))
   (map! :map +doom-dashboard-mode-map
         :desc "Agenda" "a" #'org-agenda
-        :desc "Capture" "X" #'org-capture
+        :desc "Capture" "N" #'org-capture
         :desc "Scratch Buffer" "x" #'doom/switch-to-scratch-buffer
         :desc "Find file" "f" #'find-file
         :desc "Recent files" "r" #'consult-recent-file
@@ -369,6 +369,8 @@
 (add-transient-hook! #'+doom-dashboard-mode :append (+doom-dashboard-setup-modified-keymap))
 (add-hook! 'doom-init-ui-hook :append (+doom-dashboard-setup-modified-keymap))
 #+end_src
+
+#+RESULTS:
 
 *** Leader keybinding to dashboard :keybinding:
 #+begin_src emacs-lisp :tangle yes
