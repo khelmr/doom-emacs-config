@@ -868,7 +868,6 @@ Set meow's initial mode for various major modes
 #+begin_src emacs-lisp :tangle yes
 (use-package! surround
   :defer t)
->>>>>>> 6f41a073a7682a95f261f310a02f48c778416ccb
 #+end_src
 
 ** COMMENT Dogears
