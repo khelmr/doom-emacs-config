@@ -1049,11 +1049,6 @@ Set meow's initial mode for various major modes
                                                                                (when phi-search--active (phi-search-abort)))))))
 #+end_src
 ** Smart-parens
-*** Use strict mode
-#+begin_src emacs-lisp :tangle yes
-(after! smartparens
-  (smartparens-global-strict-mode))
-#+end_src
 ** Aggressive Indent
 
 #+begin_src emacs-lisp :tangle packages.el
