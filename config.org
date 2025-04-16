@@ -1781,7 +1781,6 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   (setq org-ellipsis " […]"))
 #+end_src
 
-
 *** Notes
 **** Denote
 
@@ -1829,8 +1828,9 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
                    :jump-to-captured t)))
   (setq denote-history-completion-in-prompts '(denote-signature-prompt denote-files-matching-regexp-prompt denote-query-link-prompt))
   (after! vertico-multiform
-    (add-to-list 'vertico-multiform-commands '(denote-open-or-create (vertico-preselect . prompt)
-                                               denote (vertico-preselect . prompt))))
+    ;; preselect the prompt when creating a new note
+    (add-to-list 'vertico-multiform-commands '(denote-open-or-create (vertico-preselect . prompt)))
+    (add-to-list 'vertico-multiform-commands '(denote (vertico-preselect . prompt))))
   (denote-rename-buffer-mode 1))
 #+end_src
 
