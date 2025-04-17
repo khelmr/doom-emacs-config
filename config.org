@@ -358,6 +358,7 @@
         :desc "Switch buffers (all)" "B" #'consult-buffer
         :desc "Open bookmarks" "RET" #'bookmark-jump
         :desc "Doom documentation" "H" #'doom/help
+        :desc "Today's Journal" "J" #'denote-journal-new-or-existing-entry
         :desc "IBuffer" "i" #'ibuffer
         ;; :desc "Previous buffer" "p" #'previous-buffer
         :desc "Set theme" "t" #'consult-theme
