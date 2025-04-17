@@ -2055,7 +2055,10 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   ;; strings.
   (setq denote-journal-keyword "journal")
   ;; Read the doc string of `denote-journal-title-format'.
-  (setq denote-journal-title-format 'day-date-month-year)
+  (setq denote-journal-title-format "%Y-%m-%d %a"))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
 (after! org-capture
   (add-to-list 'org-capture-templates
                '("j" "Journal" entry
@@ -2063,7 +2066,6 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
                  "* %U %?\n%i\n%a"
                  :kill-buffer t
                  :empty-lines 1)))
-)
 #+end_src
 ***** Denote Explorer
 #+begin_src emacs-lisp :tangle packages.el
