@@ -344,6 +344,7 @@
   (setq +doom-dashboard-mode-map (make-sparse-keymap))
   (map! :map +doom-dashboard-mode-map
         :desc "Agenda" "a" #'org-agenda
+        :desc "Agenda (GTD)" "A" (cmd! (org-agenda nil "g"))
         :desc "Capture" "N" #'org-capture
         :desc "Scratch Buffer" "x" #'doom/switch-to-scratch-buffer
         :desc "Find file" "f" #'find-file
@@ -370,14 +371,11 @@
 (add-hook! 'doom-init-ui-hook :append (+doom-dashboard-setup-modified-keymap))
 #+end_src
 
-#+RESULTS:
-
 *** Leader keybinding to dashboard :keybinding:
 #+begin_src emacs-lisp :tangle yes
 (map! :map doom-leader-open-map
       "d" #'+doom-dashboard/open)
 #+end_src
-
 
 *** Add splash phrases
 Taken from https://tecosaur.github.io/emacs-config/config.html
@@ -487,7 +485,6 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
       (buffer-string)))))
 (add-hook! '+doom-dashboard-functions :append #'+doom-dashboard-flower)
 #+end_src
-
 
 *** Adjust doom-dashboard functions
 #+begin_src emacs-lisp :tangle yes
