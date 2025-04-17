@@ -1840,6 +1840,8 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
     ;; preselect the prompt when creating a new note
     (add-to-list 'vertico-multiform-commands '(denote-open-or-create (vertico-preselect . prompt)))
     (add-to-list 'vertico-multiform-commands '(denote (vertico-preselect . prompt))))
+  (when (modulep! word-wrap)
+    (add-to-list '+word-wrap-text-modes 'denote-query-mode))
   (denote-rename-buffer-mode 1))
 #+end_src
 
