@@ -2033,6 +2033,38 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 (use-package! denote-org
   :after (denote org))
 #+end_src
+***** Denote Journal
+#+begin_src emacs-lisp :tangle packages.el
+(package! denote-journal)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package denote-journal
+  :after denote
+  ;; Bind those to some key for your convenience.
+  :commands ( denote-journal-new-entry
+              denote-journal-new-or-existing-entry
+              denote-journal-link-or-create-entry )
+  :hook (calendar-mode . denote-journal-calendar-mode)
+  :config
+  ;; Use the "journal" subdirectory of the `denote-directory'.  Set this
+  ;; to nil to use the `denote-directory' instead.
+  (setq denote-journal-directory
+        (expand-file-name "journal" denote-directory))
+  ;; Default keyword for new journal entries. It can also be a list of
+  ;; strings.
+  (setq denote-journal-keyword "journal")
+  ;; Read the doc string of `denote-journal-title-format'.
+  (setq denote-journal-title-format 'day-date-month-year)
+(after! org-capture
+  (add-to-list 'org-capture-templates
+               '("j" "Journal" entry
+                 (file denote-journal-path-to-new-or-existing-entry)
+                 "* %U %?\n%i\n%a"
+                 :kill-buffer t
+                 :empty-lines 1)))
+)
+#+end_src
 ***** Denote Explorer
 #+begin_src emacs-lisp :tangle packages.el
 (package! denote-explore)
