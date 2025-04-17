@@ -315,7 +315,6 @@
                            (nth (random (length splash-images)) splash-images))))
 #+end_src
 
-
 *** Minimal dashboard
 #+begin_src emacs-lisp :tangle yes
 (defun +doom-dashboard-tweak (&optional _)
@@ -1055,7 +1054,7 @@ Set meow's initial mode for various major modes
 (use-package! aggressive-indent
   :hook (doom-first-file . global-aggressive-indent-mode))
 #+end_src
-** Reapeat-Fu
+** Repeat-Fu
 #+begin_src emacs-lisp :tangle packages.el
 (package! repeat-fu)
 #+end_src
@@ -1793,6 +1792,12 @@ Largely identical to doom's default but I want to replace KILL with CNCL
 
 (:endgrouptag)
 #+end_src
+**** Log
+#+begin_src emacs-lisp :tangle yes
+(after! org
+  (setq org-log-into-drawer t))
+#+end_src
+
 **** Org timeblock
 #+begin_src emacs-lisp :tangle packages.el
 (package! org-timeblock)
@@ -2004,8 +2009,6 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
     (add-to-list '+word-wrap-text-modes 'denote-query-mode))
   (denote-rename-buffer-mode 1))
 #+end_src
-
-
 
 ***** Consult Denote
 #+begin_src emacs-lisp :tangle packages.el
