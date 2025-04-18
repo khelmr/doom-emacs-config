@@ -2053,7 +2053,7 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
-(use-package denote-journal
+(use-package! denote-journal
   :after denote
   ;; Bind those to some key for your convenience.
   :commands ( denote-journal-new-entry
