@@ -1835,7 +1835,7 @@ Use doct for improved org-capture template creation.
 **** Capture Templates
 #+begin_src emacs-lisp :tangle yes
 (after! (:and org denote)
-  (setq org-capture-templates (doct '(("Inbox"
+  (setq org-capture-templates (doct '(("󰚇 Inbox"
                                        :keys "i"
                                        :file "inbox.org"
                                        :type entry
@@ -1848,7 +1848,7 @@ Use doct for improved org-capture template creation.
                                                   "%a")
                                        :kill-buffer t
                                        )
-                                      ("Todo" :keys "t"
+                                      ("󰄲 Todo" :keys "t"
                                        :file "inbox.org"
                                        :type entry
                                        :prepend t
@@ -1858,7 +1858,7 @@ Use doct for improved org-capture template creation.
                                                   ":END:"
                                                   "%i"
                                                   "%a"))
-                                      ("Calendar" :keys "c"
+                                      ("󰃭 Calendar" :keys "c"
                                        :file "inbox.org"
                                        :type entry
                                        :prepend t
@@ -1867,7 +1867,7 @@ Use doct for improved org-capture template creation.
                                                   ":CREATED: %U"
                                                   ":END:"
                                                   "%i"))
-                                      ("Meeting" :keys "m"
+                                      ("󰡉 Meeting" :keys "m"
                                        :file "inbox.org"
                                        :type entry
                                        :prepend t
@@ -1876,7 +1876,7 @@ Use doct for improved org-capture template creation.
                                                   ":CREATED: %U"
                                                   ":END:"
                                                   "%i"))
-                                      ("Email" :keys "@"
+                                      ("󰇮 Email" :keys "@"
                                        :file "inbox.org"
                                        :type entry
                                        :prepend t
@@ -1885,7 +1885,7 @@ Use doct for improved org-capture template creation.
                                                   ":CREATED: %U"
                                                   ":END:"
                                                   "%i"))
-                                      ("Project" :keys "p"
+                                      ("󰥪 Project" :keys "p"
                                        :file "inbox.org"
                                        :type entry
                                        :prepend t
@@ -1894,7 +1894,7 @@ Use doct for improved org-capture template creation.
                                                   ":CREATED: %U"
                                                   ":END:"
                                                   "%i"))
-                                      ("School" :keys "s"
+                                      (" School" :keys "s"
                                        :file "medical-school.org"
                                        )
                                       )))
@@ -2004,7 +2004,7 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   ;; (setq denote-use-directory denote-directory)
   (after! org-capture
     (add-to-list 'org-capture-templates
-                 '("n" "New note (with Denote)" plain
+                 '("n" "󰎚 New note (with Denote)" plain
                    (file denote-last-path)
                    #'denote-org-capture
                    :no-save t
