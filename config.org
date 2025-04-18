@@ -2046,6 +2046,8 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   :commands ( denote-journal-new-entry
               denote-journal-new-or-existing-entry
               denote-journal-link-or-create-entry )
+  :bind
+  (("C-c n j" . #'denote-journal-new-or-existing-entry))
   :hook (calendar-mode . denote-journal-calendar-mode)
   :config
   ;; Use the "journal" subdirectory of the `denote-directory'.  Set this
