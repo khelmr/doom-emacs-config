@@ -2006,7 +2006,7 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
     (add-to-list 'vertico-multiform-commands '(denote-open-or-create (vertico-preselect . prompt)))
     (add-to-list 'vertico-multiform-commands '(denote (vertico-preselect . prompt))))
   ;; word wrap backlinks and query buffers
-  (when (modulep! word-wrap)
+  (when (modulep! :editor word-wrap)
     (add-to-list '+word-wrap-text-modes 'denote-query-mode))
   (denote-rename-buffer-mode 1))
 #+end_src
