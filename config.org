@@ -2005,6 +2005,46 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 (after! org
   (setq org-ellipsis " […]"))
 #+end_src
+**** Org block name
+#+begin_src emacs-lisp :tangle no
+(after! org-modern
+  (setq org-modern-block-name '((t . t)
+                                ("src" "»" "«")
+                                ("quote" "“" "”")
+                                )
+        org-modern-keyword '((t . t)
+                             ("NAME" . "»")
+                             ;; fa icons
+                             ("title" . t)
+                             ("subtitle" . t)
+                             ("author" . "")
+                             ("date" . "")
+                             ("email" . "")
+                             ("property" . "")
+                             ("options" . t)
+                             ("startup" . "")
+                             ("macro" . t)
+                             ("bibliography" . "󱉟")
+                             ("include" . t)
+                             ("filetags" . "")
+                             ("identifier" . "")
+                             ("language" . "󰗊")
+                             ("caption" . "󰌕")
+                             )))
+#+end_src
+**** Custom org star
+#+begin_src emacs-lisp :tangle yes
+(after! org-modern
+  (setq org-modern-fold-stars '(("󰼏" . "󰎤")
+                                ("󰎨" . "󰎩")
+                                ("󰼑" . "󰎪")
+                                ("󰎲" . "󰎮")
+                                ("󰼓" . "󰎱")
+                                ("󰎴" . "󰎵")
+                                ("󰼕" . "󰎶")
+                                ("󰎺" . "󰎻")
+                                ("󰼘" . "󰎿"))))
+#+end_src
 
 *** Notes
 **** Denote
