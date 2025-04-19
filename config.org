@@ -2204,6 +2204,45 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 
 * Email
 * App
+* Fun
+** Xkcd
+#+begin_src emacs-lisp :tangle packages.el
+(package! xkcd)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! xkcd
+  :commands (xkcd-get-json
+             xkcd-download xkcd-get
+             ;; now for funcs from my extension of this pkg
+             ;; +xkcd-find-and-copy +xkcd-find-and-view
+             ;; +xkcd-fetch-info +xkcd-select
+)
+  :config
+  (setq xkcd-cache-dir (expand-file-name "xkcd/" doom-cache-dir)
+        xkcd-cache-latest (concat xkcd-cache-dir "latest"))
+  (unless (file-exists-p xkcd-cache-dir)
+    (make-directory xkcd-cache-dir)))
+#+end_src
+** Speed Type
+#+begin_src emacs-lisp :tangle packages.el
+(package! speed-type)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package speed-type
+  :defer t)
+#+end_src
+** Wordel
+#+begin_src emacs-lisp :tangle packages.el
+(package! wordel)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! wordel
+  :defer t)
+#+end_src
+
 * Personal
 ** Identify
 #+begin_src emacs-lisp :tangle yes
