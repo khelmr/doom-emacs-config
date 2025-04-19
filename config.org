@@ -2117,12 +2117,13 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 #+begin_src emacs-lisp :tangle yes
 (after! org-capture
   (add-to-list 'org-capture-templates
-               '("j" "Journal" entry
+               '("j" "󱚌 Journal" entry
                  (file denote-journal-path-to-new-or-existing-entry)
                  "* %U %?\n%i\n%a"
                  :kill-buffer t
                  :empty-lines 1)))
 #+end_src
+
 ***** Denote Explorer
 #+begin_src emacs-lisp :tangle packages.el
 (package! denote-explore)
