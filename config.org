@@ -369,7 +369,8 @@
         :desc "Today's Journal" "J" #'denote-journal-new-or-existing-entry
         :desc "IBuffer" "i" #'ibuffer
         ;; :desc "Previous buffer" "p" #'previous-buffer
-        :desc "Set theme" "t" #'consult-theme
+        :desc "Set theme" "T" #'consult-theme
+        :desc "Open terminal" "t" #'+vterm/here
         :desc "Quit" "Q" #'save-buffers-kill-terminal
         :desc "Open project" "p" #' projectile-switch-project
         :desc "Show keybindings" "h" (cmd! (which-key-show-keymap '+doom-dashboard-mode-map))))
@@ -852,7 +853,8 @@ Meow for some reason overrides the mapping of =helpful-describe-key=. This resto
 Set meow's initial mode for various major modes
 #+begin_src emacs-lisp :tangle yes
 (after! meow
-  (add-to-list 'meow-mode-state-list '((eat-mode . insert))))
+  (add-to-list 'meow-mode-state-list '((eat-mode . insert)
+                                       (vterm-mode . insert))))
 #+end_src
 
 ** Embrace
