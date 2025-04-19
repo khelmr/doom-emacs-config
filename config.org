@@ -2300,3 +2300,14 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   (interactive "sInstructor: ")
   (browse-url (concat "https://pollev.com/" instructor)))
 #+end_src
+** COMMENT Emacs config capture
+Capture templates for emacs config
+#+begin_src emacs-lisp :tangle yes
+(after! org
+  (add-to-list 'org-capture-templates (doct `((" Emacs Config"
+                                               :keys "e"
+                                               :file ,(expand-file-name "config.org" doom-user-dir)
+                                               :type entry
+                                               :headline "Personal"
+                                               :children )))))
+#+end_src
