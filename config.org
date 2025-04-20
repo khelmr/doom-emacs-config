@@ -2137,7 +2137,8 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
     (add-to-list 'vertico-multiform-commands '(denote (vertico-preselect . prompt))))
   ;; word wrap backlinks and query buffers
   (when (modulep! :editor word-wrap)
-    (add-to-list '+word-wrap-text-modes 'denote-query-mode))
+    (add-to-list '+word-wrap-text-modes 'denote-query-mode)
+    (add-hook! denote-query-mode #'+word-wrap-mode))
   (denote-rename-buffer-mode 1)
   (set-popup-rule! "^\\*Denote FILE backlinks for" :side 'bottom :width 0.5 :height 0.33 :ttl nil :modeline nil :quit t :slot 2))
 #+end_src
