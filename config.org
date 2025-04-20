@@ -355,6 +355,7 @@
         :desc "Capture" "N" #'org-capture
         :desc "Scratch Buffer" "x" #'doom/switch-to-scratch-buffer
         :desc "Find file" "f" #'find-file
+        :desc "Find file" "F" #'dirvish
         :desc "Recent files" "r" #'consult-recent-file
         :desc "Restore session" "R" #'doom/quickload-session
         :desc "Config dir" "C" #'doom/open-private-config
@@ -368,6 +369,7 @@
         :desc "Doom documentation" "H" #'doom/help
         :desc "Today's Journal" "J" #'denote-journal-new-or-existing-entry
         :desc "IBuffer" "i" #'ibuffer
+        :desc "Browse files" "e" #'dirvish
         ;; :desc "Previous buffer" "p" #'previous-buffer
         :desc "Set theme" "T" #'consult-theme
         :desc "Open terminal" "t" #'+vterm/here
@@ -503,8 +505,7 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
             #'doom-dashboard-widget-banner
             #'doom-dashboard-widget-loaded
             #'splash-phrase-dashboard-insert
-            #'+doom-dashboard-flower
-            ))
+            #'+doom-dashboard-flower))
 
 #+end_src
 
