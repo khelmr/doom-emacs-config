@@ -1,5 +1,6 @@
 #+title: Doom Emacs Config
 #+startup: fold
+#+PROPERTY: :results output silent
 
 * Doom
 ** Init
@@ -726,6 +727,40 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
               delete-old-versions t
               create-lockfiles nil)
 #+end_src
+*** Openwith
+#+begin_src emacs-lisp :tangle packages.el
+(package! openwith)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! openwith
+  :config
+  (setq openwith-associations
+            (list
+             (list (openwith-make-extension-regexp
+                    '("mpg" "mpeg" "mp3" "mp4"
+                      "avi" "wmv" "wav" "mov" "flv"
+                      "ogm" "ogg" "mkv"))
+                   "mpv"
+                   '(file))
+             ;; (list (openwith-make-extension-regexp
+             ;;        '("xbm" "pbm" "pgm" "ppm" "pnm"
+             ;;          "png" "gif" "bmp" "tif" "jpeg" "jpg"))
+             ;;       "geeqie"
+             ;;       '(file))
+             ;; (list (openwith-make-extension-regexp
+             ;;        '("doc" "xls" "ppt" "odt" "ods" "odg" "odp"))
+             ;;       "libreoffice"
+             ;;       '(file))
+             '("\\.lyx" "lyx" (file))
+             '("\\.chm" "kchmviewer" (file))
+             ;; (list (openwith-make-extension-regexp
+             ;;        '("pdf" "ps" "ps.gz" "dvi"))
+             ;;       "za"
+             ;;       '(file))
+             ))
+      (openwith-mode 1))
+#+end_src
 
 ** Meow
 Set some defaults
@@ -798,6 +833,7 @@ Automatically switch to =meow-insert= mode for convenience.
      (defun +meow--git-commit-insert-mode ()
        (when (bound-and-true-p meow-mode) (meow-insert-mode 1)))))
 #+end_src
+
 *** Meow Tree-sitter
 Add tree-sitter support to meow.
 #+begin_src emacs-lisp :tangle packages.el
