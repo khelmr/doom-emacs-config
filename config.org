@@ -311,6 +311,13 @@
       completion-ignore-case t
       read-buffer-completion-ignore-case t)
 #+end_src
+** Vertico
+*** Add keybinding to for =vertico-directory-delete-word=
+#+begin_src emacs-lisp :tangle yes
+(after! vertico-directory
+  (map! :map vertico-map
+        "M-DEL" #'vertico-directory-delete-word))
+#+end_src
 
 * UI
 ** Doom Dashboard
