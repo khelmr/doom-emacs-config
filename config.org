@@ -1007,7 +1007,7 @@ Set meow's initial mode for various major modes
 #+end_src
 
 #+begin_src emacs-lisp :tangle no
-(use-package tabspaces
+(use-package! tabspaces
   ;; use this next line only if you also use straight, otherwise ignore it.
   :hook (doom-init-ui . tabspaces-mode) ;; use this only if you want the minor-mode loaded at startup.
   :commands (tabspaces-switch-or-create-workspace
@@ -2310,7 +2310,7 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
-(use-package speed-type
+(use-package! speed-type
   :defer t)
 #+end_src
 ** Wordel
