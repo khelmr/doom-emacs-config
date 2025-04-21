@@ -1685,41 +1685,42 @@ For some reason the emacs bindings for agend are not included under the =doom-le
   :after org
   :config
   (org-super-agenda-mode 1)
-  (setq org-super-agenda-groups '(;; Each group has an implicit boolean OR operator between its selectors.
+  ;; (setq org-super-agenda-groups '(;; Each group has an implicit boolean OR operator between its selectors.
 
-         ;; This is the first filter, anything found here
-         ;; will be placed in this group
-         ;; even if it matches following groups
-         (:name " Overdue" ; Name
-                :scheduled past ; Filter criteria
-                :deadline past
-                :order 2 ; Order it should appear in agenda view
-                :face 'error) ; Font face used for text
+  ;;        ;; This is the first filter, anything found here
+  ;;        ;; will be placed in this group
+  ;;        ;; even if it matches following groups
+  ;;        (:name " Overdue" ; Name
+  ;;               :scheduled past ; Filter criteria
+  ;;               :deadline past
+  ;;               :order 2 ; Order it should appear in agenda view
+  ;;               :face 'error) ; Font face used for text
 
-         ;; This is the second filter, anything not found
-         ;; from the first filter, but found here,
-         ;; will be placed in this group
-         ;; even if it matches following groups
-         (:name " Personal" ; Name
-                :file-path "personal" ; Filter criteria
-                :order 3 ; Order it should appear in the agenda view
-                ) ; Font faced used for text
+  ;;        ;; This is the second filter, anything not found
+  ;;        ;; from the first filter, but found here,
+  ;;        ;; will be placed in this group
+  ;;        ;; even if it matches following groups
+  ;;        (:name " Personal" ; Name
+  ;;               :file-path "personal" ; Filter criteria
+  ;;               :order 3 ; Order it should appear in the agenda view
+  ;;               ) ; Font faced used for text
 
-         ;; Third filter..
-         (:name " School"  ; Name
-                :file-path "school" ; Filter criteria
-                :order 3 ; Order it should appear in the agenda view
-                ) ; Font face used for text
+  ;;        ;; Third filter..
+  ;;        (:name " School"  ; Name
+  ;;               :file-path "school" ; Filter criteria
+  ;;               :order 3 ; Order it should appear in the agenda view
+  ;;               ) ; Font face used for text
 
-         ;; Fourth filter..
-         (:name " Today "  ; Optionally specify section name
-                :time-grid t ; Use the time grid
-                :date today ; Filter criteria
-                :scheduled today ; Another filter criteria
-                :order 1 ; Order it should appear in the agenda view
-                ) ; Font face used for text
+  ;;        ;; Fourth filter..
+  ;;        (:name " Today "  ; Optionally specify section name
+  ;;               :time-grid t ; Use the time grid
+  ;;               :date today ; Filter criteria
+  ;;               :scheduled today ; Another filter criteria
+  ;;               :order 1 ; Order it should appear in the agenda view
+  ;;               ) ; Font face used for text
 
-        )))
+  ;;       ))
+  )
 #+end_src
 
 
