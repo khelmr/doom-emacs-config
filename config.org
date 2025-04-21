@@ -2164,9 +2164,12 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 
 #+begin_src emacs-lisp :tangle yes
 (use-package! denote-org
-  :bind ("C-c n d B" . denote-org-backlinks-for-heading)
+  :bind
+  (("C-c n d B" . #'denote-org-backlinks-for-heading)
+   ("C-c n d h" . #'denote-org-link-to-heading))
   :after (denote org))
 #+end_src
+
 ***** Denote Journal
 #+begin_src emacs-lisp :tangle packages.el
 (package! denote-journal)
