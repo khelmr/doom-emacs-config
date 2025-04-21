@@ -1606,7 +1606,8 @@ A prefix arg of 5 opens link in new frame."
         org-agenda-compact-blocks t
         org-agenda-include-deadlines t
         org-agenda-follow-indirect t
-        org-agenda-block-separator nil))
+        org-agenda-block-separator nil
+        org-agenda-start-day nil))
 #+end_src
 
 **** Org-expiry
