@@ -734,7 +734,7 @@ Taken from https://tecosaur.github.io/emacs-config/config.html
               delete-old-versions t
               create-lockfiles nil)
 #+end_src
-*** Openwith
+*** COMMENT Openwith
 #+begin_src emacs-lisp :tangle packages.el
 (package! openwith)
 #+end_src
@@ -1194,6 +1194,47 @@ Use doom's evil keybindings for dirvish
           "s"   #'dirvish-symlink
           "S"   #'dirvish-relative-symlink
           "h"   #'dirvish-hardlink)))
+#+end_src
+*** Hide dot files in =dired-omit-mode=
+Hide dot files in dired-omit-mode
+#+begin_src emacs-lisp :tangle yes
+(after! dired-x
+  (setq! dired-omit-files "^\\.\\|\\`[.]?#\\|\\`[.][.]?\\'\\|^\\.DS_Store\\'\\|^flycheck_.*\\|^\\.project\\(?:ile\\)?\\'\\|^\\.\\(?:svn\\|git\\)\\'\\|^\\.ccls-cache\\'\\|\\(?:\\.js\\)?\\.meta\\'\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'"))
+#+end_src
+*** Toggle =dired-omit-mode=
+#+begin_src emacs-lisp :tangle yes
+(after! dired-x
+  (map! :map dired-mode-map "." #'dired-omit-mode))
+#+end_src
+
+*** COMMENT Dired-open
+#+begin_src emacs-lisp :tangle packages.el
+(package! dired-open)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! dired-open
+  :after dired
+  :config
+  ;; (setq dired-open-functions)
+  (setq dired-open-extensions '(("mp4" . "mpv")
+                                ("mov" . "mpv")
+                                ("mkv" . "mpv")
+                                ("avi" . "mpv")
+                                ("flv" . "mpv")))
+  )
+#+end_src
+*** Dired-open-with
+#+begin_src emacs-lisp :tangle packages.el
+(package! dired-open-with)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! dired-open-with
+  :after dired
+  :bind
+  (:map dired-mode-map
+        ("E" . dired-open-with)))
 #+end_src
 
 * Term
