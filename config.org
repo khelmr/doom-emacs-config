@@ -2346,6 +2346,25 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
 
 * Email
 * App
+** Ready Player
+#+begin_src emacs-lisp :tangle packages.el
+(package! ready-player)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! ready-player
+  :init
+  (defun my-center-ready-player-on ()
+    "Enable olivetti-mode and visual-line-mode for ready-player."
+    (setq olivetti-body-width 0) ; Or a number to control the amount of chars to be centered
+    (olivetti-mode 1)            ; Enable olivetti-mode
+    (visual-line-mode 1))        ; Enable/Disable visual-line-mode for text wrapping of your liking
+
+  ;; Hook into ready-player's major mode
+  (add-hook 'ready-player-major-mode-hook #'my-center-ready-player-on)
+  :config
+  (ready-player-mode +1))
+#+end_src
 * Fun
 ** Xkcd
 #+begin_src emacs-lisp :tangle packages.el
