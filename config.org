@@ -1370,6 +1370,15 @@ Hide dot files in dired-omit-mode
 
 * OS
 * Languages
+** Just
+#+begin_src emacs-lisp :tangle packages.el
+(package! just-mode)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! just-mode
+  :defer t)
+#+end_src
 ** Org
 *** Editing
 **** Return follows link
