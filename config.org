@@ -166,7 +166,8 @@
        ;;ocaml             ; an objective camel
        (org +noter
             +pretty
-            +pomodoro)               ; organize your plain life in plain text
+            +pomodoro
+            +hugo)               ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;graphviz          ; diagrams for confusing yourself even more
