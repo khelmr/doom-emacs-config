@@ -1287,6 +1287,15 @@ Hide dot files in dired-omit-mode
 #+end_src
 * Tools
 ** Biblio
+*** Biblio
+#+begin_src emacs-lisp :tangle packages.el
+(package! biblio)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! biblio
+  :defer t)
+#+end_src
 ** Magit
 *** Magit file icons
 #+begin_src emacs-lisp :tangle yes
