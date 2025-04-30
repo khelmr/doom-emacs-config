@@ -2144,7 +2144,20 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
                                 ("󰎺" . "󰎻")
                                 ("󰼘" . "󰎿"))))
 #+end_src
+**** COMMENT Highlight latex
+#+begin_src emacs-lisp :tangle yes
+(setq org-highlight-latex-and-related '(native script entities latex))
+#+end_src
+**** Org-fragtog
+#+begin_src emacs-lisp :tangle packages.el
+(package! org-fragtog)
+#+end_src
 
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-fragtog
+  :disabled t
+  :hook (org-mode . org-fragtog-mode))
+#+end_src
 *** Notes
 **** Denote
 
