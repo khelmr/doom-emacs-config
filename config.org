@@ -2340,8 +2340,8 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   )
 #+end_src
 
-*** Org Noter
-**** Fix undeletable pdf buffer after ending =org-noter-session=
+**** Org Noter
+***** Fix undeletable pdf buffer after ending =org-noter-session=
 #+begin_src emacs-lisp :tangle yes
 ;; HACK Prevents strange behavior interacting betwee org-noter and persp-mode that prevents the new frame from being closed. Avoid this by just preventing a new frame from being made in the first place.
 (after! org-noter
