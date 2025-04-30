@@ -2105,7 +2105,7 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   (setq org-ellipsis " […]"))
 #+end_src
 **** Org block name
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle yes
 (after! org-modern
   (setq org-modern-block-name '((t . t)
                                 ("src" "»" "«")
