@@ -2369,6 +2369,18 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   (after! vertico-multiform
     (add-to-list 'vertico-multiform-commands '(org-noter-insert-note (vertico-preselect . prompt)))))
 #+end_src
+***** Add image note
+#+begin_src emacs-lisp :tangle no
+(defun +org-noter-add-region-image
+    "asdfsdf"
+  (interactive "P")
+  (org-noter--with-valid-session)
+  (let* ((ast (org-noter--parse-root)) (contents (org-element-contents ast))
+         (window (org-noter--get-notes-window 'force))
+         (selected-region ())
+         (location (org-noter--doc-approx-location (or precise-info 'interactive) )))))
+#+end_src
+
 ** Nix
 *** Use alejandra as formatter
 
