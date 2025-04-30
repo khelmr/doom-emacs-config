@@ -1959,6 +1959,15 @@ Largely identical to doom's default but I want to replace KILL with CNCL
 (use-package! org-timeblock
   :after org)
 #+end_src
+**** Org checkbox
+#+begin_src emacs-lisp :tangle packages.el
+(package! org-checkbox)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-checkbox
+  :after org)
+#+end_src
 *** Capture
 **** Doct
 Use doct for improved org-capture template creation.
