@@ -1648,7 +1648,7 @@ A prefix arg of 5 opens link in new frame."
   (setq org-attach-id-dir (expand-file-name ".attach/" org-directory)))
 #+end_src
 
-*** Agenda
+*** Agenda/Task Management
 **** Agenda Files
 #+begin_src emacs-lisp :tangle yes
 (setq org-agenda-files '("personal.org" "medical-school.org" "inbox.org"))
@@ -1946,7 +1946,8 @@ Largely identical to doom's default but I want to replace KILL with CNCL
 **** Log
 #+begin_src emacs-lisp :tangle yes
 (after! org
-  (setq org-log-into-drawer t))
+  (setq org-log-into-drawer t
+        org-log-done 'time))
 #+end_src
 
 **** Org timeblock
