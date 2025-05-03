@@ -1979,7 +1979,7 @@ Largely identical to doom's default but I want to replace KILL with CNCL
 (use-package! org-timeblock
   :after org)
 #+end_src
-**** Org checkbox
+**** COMMENT Org checkbox
 #+begin_src emacs-lisp :tangle packages.el
 (package! org-checkbox)
 #+end_src
