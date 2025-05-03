@@ -1279,7 +1279,6 @@ Hide dot files in dired-omit-mode
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
-;; FIXME Jinx will not compile for some reason.
 (use-package! jinx
   :hook
   (doom-init-ui . global-jinx-mode)
