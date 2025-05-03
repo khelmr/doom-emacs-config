@@ -305,7 +305,7 @@
 * Input
 * Completion
 ** Minibuffer
-*** COMMENT Ignore case
+*** Ignore case
 
 #+begin_src emacs-lisp :tangle yes
 (setq read-file-name-completion-ignore-case t
@@ -318,6 +318,17 @@
 (after! vertico-directory
   (map! :map vertico-map
         "M-DEL" #'vertico-directory-delete-word))
+#+end_src
+** Orderless
+*** Disable smart case
+#+begin_src emacs-lisp :tangle yes
+(after! orderless
+  (setq orderless-smart-case nil))
+#+end_src
+** Consult
+*** Replace =flymake-list-errors= with =consult-flymake=
+#+begin_src emacs-lisp :tangle yes
+(map! :after flycheck [remap flycheck-list-errors] #'consult-flycheck)
 #+end_src
 
 * UI
