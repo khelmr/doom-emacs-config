@@ -1314,6 +1314,44 @@ Hide dot files in dired-omit-mode
 
 #+begin_src emacs-lisp :tangle yes
 (use-package! biblio
+  :defer t
+  :config
+  (after! embark
+    ;; define the keymap
+    (defvar my-citar-embark-become-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "f") 'citar-open-library-files)
+    (define-key map (kbd "x") 'biblio-arxiv-lookup)
+    (define-key map (kbd "c") 'biblio-crossref-lookup)
+    (define-key map (kbd "i") 'biblio-ieee-lookup)
+    (define-key map (kbd "h") 'biblio-hal-lookup)
+    (define-key map (kbd "s") 'biblio-dissemin-lookup)
+    (define-key map (kbd "b") 'biblio-dblp-lookup)
+    (define-key map (kbd "o") 'biblio-doi-insert-bibtex)
+  map)
+  "Citar Embark become keymap for biblio lookup.")
+
+;; tell embark about the keymap
+(add-to-list 'embark-become-keymaps 'my-citar-embark-become-map)))
+#+end_src
+*** Zotra
+#+begin_src emacs-lisp :tangle packages.el
+(package! zotra)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! zotra
+  :after citar
+  :config
+  (setq zotra-default-bibliography citar-bibliography))
+#+end_src
+*** COMMENT Pubmed
+#+begin_src emacs-lisp :tangle packages.el
+(package! pubmed)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! pubmed
   :defer t)
 #+end_src
 ** Magit
@@ -2377,6 +2415,17 @@ https://github.com/marcinkoziej/org-pomodoro/issues/89#issuecomment-1058725921
   (when (executable-find "rg")
     (setopt consult-denote-grep-command #'consult-ripgrep))
   )
+#+end_src
+***** Citar Denote
+#+begin_src emacs-lisp :tangle packages.el
+(package! citar-denote)
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! citar-denote
+  :after (citar denote)
+  :init
+  (citar-denote-mode 1))
 #+end_src
 
 **** Org Noter
