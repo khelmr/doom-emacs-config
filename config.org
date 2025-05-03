@@ -330,6 +330,12 @@
 #+begin_src emacs-lisp :tangle yes
 (map! :after flycheck [remap flycheck-list-errors] #'consult-flycheck)
 #+end_src
+*** Tweak register preview
+#+begin_src emacs-lisp :tangle yes
+(after! consult
+  (advice-add #'register-preview :override #'consult-register-window)
+  (setq register-preview-delay 0.5))
+#+end_src
 
 * UI
 ** Doom Dashboard
@@ -802,16 +808,19 @@ Set some defaults
  '("u" . undo-fu-only-undo)
  '("U" . undo-fu-only-redo)
  '("/" . meow-visit)
- '("?" . meow-query-replace-regexp)))
+ '("?" . meow-query-replace-regexp)
+ '(":" . execute-extended-command)
+ '("|" . shell-command-on-region)
+ '("\"" . consult-register-store)))
 #+end_src
 *** Motion mode tweaks
 #+begin_src emacs-lisp :tangle yes
 (after! meow
   (meow-motion-define-key
    '("j" . "C-n")
-   '("k" . "C-p")))
+   '("k" . "C-p")
+))
 #+end_src
-
 *** Leader keys
 Add some keys from doom evil mode back into meow's leader keymap
 #+begin_src emacs-lisp :tangle yes
