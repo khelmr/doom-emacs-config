@@ -1392,6 +1392,15 @@ Hide dot files in dired-omit-mode
 
 (map! :map doom-leader-open-map "g" #'gptel)
 #+end_src
+*** Add Open evidence backend
+#+begin_src emacs-lisp :tangle yes
+(after! gptel
+  (gptel-make-ollama "OpenEvidence"
+    :host "api.openevidence.com"
+    :endpoint "/streaming/analysis"
+    :stream t
+    :models '(all oe-v2)))
+#+end_src
 
 
 ** Calc
