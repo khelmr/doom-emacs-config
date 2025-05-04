@@ -1227,6 +1227,11 @@ Hide dot files in dired-omit-mode
 (after! dired-x
   (map! :map dired-mode-map "." #'dired-omit-mode))
 #+end_src
+*** Enable drag and drop
+#+begin_src emacs-lisp :tangle yes
+(after! dired
+  (setq dired-mouse-drag-files t))
+#+end_src
 
 *** COMMENT Dired-open
 #+begin_src emacs-lisp :tangle packages.el
