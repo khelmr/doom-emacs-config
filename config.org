@@ -107,6 +107,7 @@
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
        lookup              ; navigate your code and its documentation
+       llm                 ; when I said you needed friends, I didn't mean...
        lsp               ; M-x vscode
        (magit +icons
               +forge)             ; a git porcelain for Emacs
@@ -1381,11 +1382,11 @@ Hide dot files in dired-omit-mode
 (add-to-list '+lookup-provider-url-alist '("Pubmed" "https://pubmed.ncbi.nlm.nih.gov/?term=%s"))
 #+end_src
 ** GPTel
-#+begin_src emacs-lisp :tangle packages.el
+#+begin_src emacs-lisp :tangle no
 (package! gptel :recipe (:nonrecursive t))
 #+end_src
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package! gptel
   :config
   (setq gptel-model   'deepseek-r1:latest
@@ -1397,7 +1398,17 @@ Hide dot files in dired-omit-mode
 
 (map! :map doom-leader-open-map "g" #'gptel)
 #+end_src
-*** Add Open evidence backend
+
+#+begin_src emacs-lisp :tangle yes
+(after! gptel
+  (setq gptel-model   'deepseek-r1:latest
+      gptel-backend (gptel-make-ollama "Ollama"             ;Any name of your choosing
+                                       :host "localhost:11434"               ;Where it's running
+                                       :stream t                             ;Stream responses
+                                       :models '(deepseek-r1:latest))
+      gptel-default-mode 'org-mode))
+#+end_src
+*** COMMENT Add Open evidence backend
 #+begin_src emacs-lisp :tangle yes
 (after! gptel
   (gptel-make-ollama "OpenEvidence"
